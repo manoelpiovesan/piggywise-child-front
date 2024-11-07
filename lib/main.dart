@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/views/home.dart';
+import 'package:piggywise_child_front/views/login_view.dart';
 
 ///
 ///
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.light,
       ),
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      home: LoginView(),
     );
   }
 }

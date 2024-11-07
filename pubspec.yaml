@@ -8,11 +8,17 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  agattp:
+    git:
+      url: git@github.com:anlix-io/agattp.git
+      ref: dev
+
+  cupertino_icons: ^1.0.8
+
   flutter:
     sdk: flutter
 
-
-  cupertino_icons: ^1.0.8
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
@@ -24,6 +30,6 @@ flutter:
   uses-material-design: true
 
   assets:
-   - assets/images/
-   - assets/images/piggy1.png
+    - assets/images/
+    - assets/images/piggy1.png
 
