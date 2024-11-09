@@ -1,15 +1,12 @@
 import 'package:piggywise_child_front/models/tasks.dart';
-import 'package:piggywise_child_front/models/user.dart';
 
 ///
 ///
 ///
 class Piggy {
   String name = '';
-  String description = '';
-  List<User> members = <User>[];
+  String? description;
   List<Task> tasks = <Task>[];
-  int balance = 0;
 
   ///
   ///
@@ -17,7 +14,11 @@ class Piggy {
   Piggy.fromJson(final Map<String, dynamic> map) {
     name = map['name'];
     description = map['description'];
-    balance = map['balance'];
+    if (map['tasks'] != null) {
+      for (final Map<String, dynamic> task in map['tasks']) {
+        tasks.add(Task.fromJson(task));
+      }
+    }
   }
 
   ///
@@ -27,9 +28,7 @@ class Piggy {
     return <String, dynamic>{
       'name': name,
       'description': description,
-      'members': members.map((final User member) => member.toMap()).toList(),
       'tasks': tasks.map((final Task task) => task.toMap()).toList(),
-      'balance': balance,
     };
   }
 }

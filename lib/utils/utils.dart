@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:piggywise_child_front/utils/config.dart';
 
 ///
 ///
@@ -9,26 +10,21 @@ class Utils {
   ///
   CupertinoNavigationBar navBar({final String? title}) =>
       CupertinoNavigationBar(
-        middle: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            /// Icon
-            const Image(
-              image: AssetImage('assets/images/piggy1.png'),
-              width: 40,
-            ),
+        middle: title != null
+            ? Text(title)
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      /// Title
+                      Text(Config().appName),
 
-            /// Title
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                /// Title
-                Text(title ?? 'PiggyWise'),
-
-                /// Subtitle
-                const Text(
-                  'Para Crianças',
-                  style: TextStyle(
+                      /// Subtitle
+                Text(
+                  Config().slogan,
+                  style: const TextStyle(
                     fontSize: 12,
                     color: CupertinoColors.systemGrey,
                   ),
@@ -38,4 +34,37 @@ class Utils {
           ],
         ),
       );
+
+  ///
+  ///
+  ///
+  static Future<void> navReplace(
+    final BuildContext context,
+    final Widget page,
+  ) async {
+    await Navigator.of(context).pushReplacement(
+      CupertinoPageRoute<void>(
+        builder: (final BuildContext context) => page,
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  static Future<void> nav(
+    final BuildContext context,
+    final Widget page,
+  ) async {
+    await Navigator.of(context).push(
+      CupertinoPageRoute<void>(
+        builder: (final BuildContext context) => page,
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  static SizedBox get spacer => const SizedBox(height: 16);
 }

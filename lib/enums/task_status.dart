@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, document_ignores
+
 ///
 ///
 ///
@@ -11,7 +13,7 @@ enum TaskStatus {
   ///
   ///
   static TaskStatus fromString(final String status) {
-    switch (status.toLowerCase()) {
+    switch (status) {
       case 'pending':
         return TaskStatus.pending;
       case 'in_progress':
