@@ -41,19 +41,17 @@ class FamilyConsumer {
       username: Session().user!.username,
       password: Session().user!.password,
     ).postJson(
-      Uri.parse(<String>[Config().backUrl, 'family', 'join', code].join('/')),
+      Uri.parse(<String>[Config().backUrl, 'family', 'join', code.toUpperCase()]
+          .join('/'),
+      ),
+          body: <String, dynamic>{},
     );
-
-    print('User: ${Session().user!.username}');
-    print('Response: ${response.json}');
 
     if (response.statusCode > 299 || response.statusCode < 200) {
       return null;
     }
 
     Session().user!.family = Family.fromJson(response.json);
-
-    print('Family: ${Family.fromJson(response.json)}');
 
     return Family.fromJson(response.json);
   }

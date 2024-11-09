@@ -22,7 +22,7 @@ class Family {
   ///
   Family.fromJson(final Map<String, dynamic> map) {
     name = map['name'] ?? '';
-    description = map['description'];
+    description = map['description'] ?? '';
     code = map['code'] ?? '';
     if (map['users'] != null) {
       for (final Map<String, dynamic> user in map['users']) {
