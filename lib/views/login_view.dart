@@ -127,7 +127,8 @@ class _LoginViewState extends State<LoginView> {
       await UserConsumer().login(user);
 
       if (context.mounted) {
-        await Utils.navReplace(context, const HomeView());
+        await Utils.
+    (context, const HomeView());
       }
     } on Exception {
       setState(() {
