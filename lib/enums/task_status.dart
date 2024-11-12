@@ -1,13 +1,52 @@
 // ignore_for_file: constant_identifier_names, document_ignores
 
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
+import 'package:piggywise_child_front/models/task.dart';
+
 ///
 ///
 ///
 enum TaskStatus {
-  pending,
-  in_progress,
-  waiting_approval,
-  done;
+  pending(
+    color: CupertinoColors.systemYellow,
+    iconData: CupertinoIcons.clock,
+    translation: 'Pendente',
+  ),
+  in_progress(
+    color: CupertinoColors.systemBlue,
+    iconData: CupertinoIcons.play_arrow,
+    translation: 'Em progresso',
+  ),
+  waiting_approval(
+    color: CupertinoColors.systemOrange,
+    iconData: CupertinoIcons.hourglass,
+    translation: 'Aguardando aprovação',
+  ),
+  waiting_deposit(
+    color: CupertinoColors.systemOrange,
+    iconData: CupertinoIcons.hourglass,
+    translation: 'Aguardando depósito',
+  ),
+  done(
+    color: CupertinoColors.systemGreen,
+    iconData: CupertinoIcons.check_mark,
+    translation: 'Concluído',
+  );
+
+  final Color color;
+  final IconData iconData;
+  final String translation;
+
+  ///
+  ///
+  ///
+  const TaskStatus({
+    required this.color,
+    required this.iconData,
+    required this.translation,
+  });
 
   ///
   ///
@@ -26,4 +65,14 @@ enum TaskStatus {
         return TaskStatus.pending;
     }
   }
+
+  ///
+  ///
+  ///
+  Icon get iconColored => Icon(iconData, color: color);
+
+  ///
+  ///
+  ///
+  Icon get icon => Icon(iconData);
 }

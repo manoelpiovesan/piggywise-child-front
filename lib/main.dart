@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(final BuildContext context) {
     return const CupertinoApp(
       theme: CupertinoThemeData(
-        primaryColor: Colors.blue,
+        primaryColor: Colors.purple,
         brightness: Brightness.light,
       ),
       debugShowCheckedModeBanner: false,

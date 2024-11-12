@@ -19,6 +19,9 @@ class PiggySyncForm extends StatefulWidget {
 ///
 class _PiggySyncFormState extends State<PiggySyncForm> {
   final TextEditingController _piggyCodeController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _goalController = TextEditingController();
 
   ///
   ///
@@ -33,6 +36,28 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
             children: <Widget>[
               CupertinoFormSection(
                 children: <Widget>[
+                  /// Name
+                  CupertinoTextFormFieldRow(
+                    controller: _nameController,
+                    prefix: const Icon(Icons.chat_bubble),
+                    placeholder: 'Nome do Cofrinho',
+                  ),
+
+                  /// Description
+                  CupertinoTextFormFieldRow(
+                    controller: _descriptionController,
+                    prefix: const Icon(Icons.description),
+                    placeholder: 'Descrição do Cofrinho',
+                  ),
+
+                  /// Goal
+                  CupertinoTextFormFieldRow(
+                    controller: _goalController,
+                    keyboardType: TextInputType.number,
+                    prefix: const Icon(Icons.monetization_on_outlined),
+                    placeholder: 'Meta do Cofrinho',
+                  ),
+
                   /// Piggy Code
                   CupertinoTextFormFieldRow(
                     controller: _piggyCodeController,
@@ -58,7 +83,12 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
   ///
   Future<void> syncPiggy(final BuildContext context) async {
     try {
-      await PiggyConsumer().sync(_piggyCodeController.text);
+      await PiggyConsumer().sync(
+        _piggyCodeController.text,
+        _nameController.text,
+        _descriptionController.text,
+        int.parse(_goalController.text),
+      );
       await Utils.navReplace(context, const HomeView());
     } on Exception catch (e) {
       if (context.mounted) {

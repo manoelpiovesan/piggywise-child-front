@@ -1,4 +1,5 @@
 import 'package:agattp/agattp.dart';
+import 'package:flutter/foundation.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/models/user.dart';
@@ -42,13 +43,16 @@ class FamilyConsumer {
       username: Session().user!.username,
       password: Session().user!.password,
     ).postJson(
-      Uri.parse(<String>[Config().backUrl, 'family', 'join', code.toUpperCase()]
-          .join('/'),
+      Uri.parse(
+        <String>[Config().backUrl, 'family', 'join', code.toUpperCase()]
+            .join('/'),
       ),
-          body: <String, dynamic>{},
+      body: <String, dynamic>{},
     );
 
-    print(response.json);
+    if (kDebugMode) {
+      print(response.json);
+    }
 
     if (response.statusCode > 299 || response.statusCode < 200) {
       return null;
@@ -80,5 +84,33 @@ class FamilyConsumer {
     }
 
     return users;
+  }
+
+  ///
+  ///
+  ///
+  Future<Family?> createFamily(final Family family) async {
+    final AgattpResponseJson<Map<String, dynamic>> response =
+        await Agattp.authBasic(
+      username: Session().user!.username,
+      password: Session().user!.password,
+    ).postJson(
+      Uri.parse(
+        <String>[Config().backUrl, 'family'].join('/'),
+      ),
+      body: family.toMap(),
+    );
+
+    if (kDebugMode) {
+      print(response.json);
+    }
+
+    if (response.statusCode > 299 || response.statusCode < 200) {
+      return null;
+    }
+
+    Session().user!.family = Family.fromJson(response.json);
+
+    return Family.fromJson(response.json);
   }
 }

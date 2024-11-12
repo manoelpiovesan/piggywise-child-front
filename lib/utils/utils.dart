@@ -8,8 +8,14 @@ class Utils {
   ///
   ///
   ///
-  CupertinoNavigationBar navBar({final String? title}) =>
+  CupertinoNavigationBar navBar({
+    final String? title,
+    final Widget? trailing,
+    final String? previousTitle,
+  }) =>
       CupertinoNavigationBar(
+        previousPageTitle: previousTitle,
+        trailing: trailing,
         middle: title != null
             ? Text(title)
             : Row(
@@ -22,17 +28,17 @@ class Utils {
                       Text(Config().appName),
 
                       /// Subtitle
-                Text(
-                  Config().slogan,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: CupertinoColors.systemGrey,
+                      Text(
+                        Config().slogan,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: CupertinoColors.systemGrey,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                ],
+              ),
       );
 
   ///

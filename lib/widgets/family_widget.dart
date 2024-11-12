@@ -3,6 +3,7 @@ import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/views/family/family_create_form.dart';
 import 'package:piggywise_child_front/views/family/family_details.dart';
 import 'package:piggywise_child_front/views/family/join_family_form.dart';
 import 'package:piggywise_child_front/widgets/piggy_list_widget.dart';
@@ -108,8 +109,11 @@ class _FamilyWidgetState extends State<FamilyWidget> {
         actions: <Widget>[
           if (Session().user!.isParent)
             CupertinoActionSheetAction(
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+                await Utils.nav(context, const FamilyCreateForm());
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
               child: const Text('Criar uma família'),
             ),

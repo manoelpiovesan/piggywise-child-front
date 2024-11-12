@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/views/piggy/piggy_details_view.dart';
 import 'package:piggywise_child_front/views/piggy/piggy_sync_form.dart';
 
 ///
 ///
 ///
 class PiggyListWidget extends StatelessWidget {
-
   ///
   ///
   ///
@@ -36,8 +36,17 @@ class PiggyListWidget extends StatelessWidget {
           final List<Widget> piggiesList = snapshot.data!
               .map(
                 (final Piggy piggy) => CupertinoListTile(
+                  onTap: () => Utils.nav(
+                    context,
+                    PiggyDetailsView(
+                      piggyId: piggy.id,
+                      previousTitle: 'Início',
+                    ),
+                  ),
+                  trailing: const CupertinoListTileChevron(),
                   title: Text(piggy.name),
                   subtitle: Text(piggy.code),
+                  additionalInfo: Text('${piggy.balance} / ${piggy.goal}'),
                   leading: const Icon(Icons.punch_clock_rounded),
                 ),
               )
@@ -45,10 +54,6 @@ class PiggyListWidget extends StatelessWidget {
 
           return SafeArea(
             child: CupertinoListSection.insetGrouped(
-              footer: CupertinoButton(
-                child: const Icon(CupertinoIcons.add),
-                onPressed: () => Utils.nav(context, const PiggySyncForm()),
-              ),
               backgroundColor: CupertinoColors.white,
               header: const Text('Seus Piggies'),
               children: <Widget>[

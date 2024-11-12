@@ -4,6 +4,8 @@ import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/views/piggy/piggy_sync_form.dart';
+import 'package:piggywise_child_front/widgets/hideable_code_widget.dart';
 
 ///
 ///
@@ -50,8 +52,8 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                       title: Text(user.name),
                       subtitle: Text('@${user.username}'),
                       leading: user.isParent
-                          ? const Icon(Icons.child_care)
-                          : const Icon(Icons.escalator_warning),
+                          ? const Icon(Icons.escalator_warning)
+                          : const Icon(Icons.child_care),
                     ),
                   )
                   .toList();
@@ -83,42 +85,25 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                         Utils.spacer,
 
                         /// Family Code
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: CupertinoColors.systemGrey,
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              const Text(
-                                'Código de Convite',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: CupertinoColors.systemGrey,
-                                ),
-                              ),
-                              Text(
-                                widget.family.code,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  color: CupertinoColors.systemGrey,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
+                        HideableCodeWidget(
+                          code: widget.family.code,
+                          title: 'Código de Convite',
+                          bordered: false,
                         ),
                       ],
                     ),
+                    Utils.spacer,
 
                     /// Users
-                    CupertinoListSection(
+                    CupertinoListSection.insetGrouped(
                       header: const Text('Membros da família'),
                       children: usersList,
                     ),
+
+                    Utils.spacer,
+
+                    /// Sync Piggy
+                    _syncPiggy(context)
                   ],
                 ),
               );
@@ -128,4 +113,14 @@ class _FamilyDetailsState extends State<FamilyDetails> {
       ),
     );
   }
+
+  ///
+  ///
+  ///
+  Widget _syncPiggy(final BuildContext context) => CupertinoListTile(
+        onTap: () => Utils.nav(context, const PiggySyncForm()),
+        leading: const Icon(CupertinoIcons.add),
+        title: const Text('Sincronize seu PiggyWise'),
+        trailing: const CupertinoListTileChevron(),
+      );
 }
