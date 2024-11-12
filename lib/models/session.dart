@@ -18,5 +18,5 @@ class Session {
   User? user;
 
   static Future<void> logout(final BuildContext context) =>
-      Utils.navReplace(context, LoginView());
+      Utils.navReplace(context, const LoginView());
 }

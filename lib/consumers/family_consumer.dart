@@ -1,6 +1,7 @@
 import 'package:agattp/agattp.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/models/session.dart';
+import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/config.dart';
 
 ///
@@ -47,6 +48,8 @@ class FamilyConsumer {
           body: <String, dynamic>{},
     );
 
+    print(response.json);
+
     if (response.statusCode > 299 || response.statusCode < 200) {
       return null;
     }
@@ -54,5 +57,28 @@ class FamilyConsumer {
     Session().user!.family = Family.fromJson(response.json);
 
     return Family.fromJson(response.json);
+  }
+
+  ///
+  ///
+  ///
+  Future<List<User>> get getFamilyUsers async {
+    final AgattpResponseJson<List<dynamic>> response = await Agattp.authBasic(
+      username: Session().user!.username,
+      password: Session().user!.password,
+    ).getJson(
+      Uri.parse(<String>[Config().backUrl, 'family', 'users'].join('/')),
+    );
+
+    if (response.statusCode > 299 || response.statusCode < 200) {
+      throw Exception('Falha ao resgatar os usuários da família');
+    }
+
+    final List<User> users = <User>[];
+    for (final Map<String, dynamic> user in response.json) {
+      users.add(User.fromJson(user));
+    }
+
+    return users;
   }
 }

@@ -67,4 +67,25 @@ class Utils {
   ///
   ///
   static SizedBox get spacer => const SizedBox(height: 16);
+
+  ///
+  ///
+  ///
+  void alert(final BuildContext context, final String message) {
+    showCupertinoDialog<void>(
+      context: context,
+      builder: (final BuildContext context) => CupertinoAlertDialog(
+        title: const Text('Atenção'),
+        content: Text(message),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 }

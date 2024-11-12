@@ -3,7 +3,8 @@ import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
-import 'package:piggywise_child_front/views/join_family_form.dart';
+import 'package:piggywise_child_front/views/family/family_details.dart';
+import 'package:piggywise_child_front/views/family/join_family_form.dart';
 import 'package:piggywise_child_front/widgets/piggy_list_widget.dart';
 
 ///
@@ -48,32 +49,48 @@ class _FamilyWidgetState extends State<FamilyWidget> {
             ),
           ); // Levar para criar uma familia
         } else {
-          return Column(
-            children: <Widget>[
-              /// Family Info
-              CupertinoListTile(
-                leading: const Icon(CupertinoIcons.group_solid),
-                trailing: const CupertinoListTileChevron(),
-                additionalInfo: Text('${snapshot.data!.usersQty} membros'),
-                title: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      'Família',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: CupertinoColors.systemGrey,
-                      ),
-                    ),
-                    Text(snapshot.data!.name),
-                  ],
-                ),
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: CupertinoColors.systemGroupedBackground,
               ),
+            ),
+            margin: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              children: <Widget>[
+                /// Family Info
+                CupertinoListTile(
+                  onTap: () => Utils.nav(
+                    context,
+                    FamilyDetails(
+                      family: snapshot.data!,
+                    ),
+                  ),
+                  leading: const Icon(CupertinoIcons.group_solid),
+                  trailing: const CupertinoListTileChevron(),
+                  additionalInfo: Text('${snapshot.data!.usersQty} membros'),
+                  title: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Text(
+                        'Família',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: CupertinoColors.systemGrey,
+                        ),
+                      ),
+                      Text(snapshot.data!.name),
+                    ],
+                  ),
+                ),
 
-              /// Piggies
-              PiggyListWidget(piggies: snapshot.data!.piggies),
-            ],
+                /// Piggies
+                const PiggyListWidget(),
+              ],
+            ),
           );
         }
       },

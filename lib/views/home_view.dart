@@ -30,16 +30,6 @@ class _HomeViewState extends State<HomeView> {
       child: SafeArea(
         child: Column(
           children: <Widget>[
-            /// Actions TEST
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                CupertinoButton(
-                  child: const Text('Logout'),
-                  onPressed: () => Session.logout(context),
-                ),
-              ],
-            ),
 
             /// User
             UserWidget(),
