@@ -40,7 +40,7 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
                   CupertinoTextFormFieldRow(
                     controller: _nameController,
                     prefix: const Icon(Icons.chat_bubble),
-                    placeholder: 'Nome do Cofrinho',
+                    placeholder: 'Escolha um nome para o Cofrinho',
                   ),
 
                   /// Description
@@ -68,7 +68,7 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
               ),
               Utils.spacer,
               CupertinoButton.filled(
-                onPressed: () async => syncPiggy(context),
+                onPressed: () async => _syncPiggy(context),
                 child: const Text('Sincronizar'),
               ),
             ],
@@ -81,7 +81,7 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
   ///
   ///
   ///
-  Future<void> syncPiggy(final BuildContext context) async {
+  Future<void> _syncPiggy(final BuildContext context) async {
     try {
       await PiggyConsumer().sync(
         _piggyCodeController.text,
@@ -89,7 +89,9 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
         _descriptionController.text,
         int.parse(_goalController.text),
       );
-      await Utils.navReplace(context, const HomeView());
+      if (context.mounted) {
+        await Utils.navReplace(context, const HomeView());
+      }
     } on Exception catch (e) {
       if (context.mounted) {
         Utils().alert(context, e.toString());

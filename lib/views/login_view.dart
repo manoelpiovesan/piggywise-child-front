@@ -5,6 +5,7 @@ import 'package:piggywise_child_front/utils/config.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/home_view.dart';
 import 'package:piggywise_child_front/views/signup_view.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 ///
 ///
@@ -68,6 +69,14 @@ class _LoginViewState extends State<LoginView> {
               ),
               _spacer,
 
+              /// Avatar
+              if (user.username.isNotEmpty)
+                RandomAvatar(user.username, height: 100, width: 100)
+              else
+                RandomAvatar('piggywise', height: 100, width: 100),
+
+              _spacer,
+
               /// Login Fields
               CupertinoFormSection.insetGrouped(
                 children: <Widget>[
@@ -76,7 +85,9 @@ class _LoginViewState extends State<LoginView> {
                     prefix: const Icon(CupertinoIcons.person),
                     placeholder: 'Usuário',
                     onChanged: (final String value) {
-                      user.username = value;
+                      setState(() {
+                        user.username = value;
+                      });
                     },
                   ),
 

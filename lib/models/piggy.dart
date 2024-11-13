@@ -1,3 +1,4 @@
+import 'package:piggywise_child_front/enums/task_status.dart';
 import 'package:piggywise_child_front/models/task.dart';
 
 ///
@@ -9,7 +10,6 @@ class Piggy {
   String name = '';
   String? description;
   List<Task> tasks = <Task>[];
-  int balance = 0;
   int goal = 0;
 
   ///
@@ -25,7 +25,6 @@ class Piggy {
         tasks.add(Task.fromJson(task));
       }
     }
-    balance = map['balance'];
     goal = map['goal'];
   }
 
@@ -42,5 +41,41 @@ class Piggy {
       'balance': balance,
       'goal': goal,
     };
+  }
+
+  ///
+  ///
+  ///
+  int get balance => tasks.fold<int>(
+        0,
+        (final int previousValue, final Task element) {
+          if (element.status == TaskStatus.done) {
+            return previousValue + element.points;
+          }
+          return previousValue;
+        },
+      );
+
+  ///
+  ///
+  ///
+  int get waitingDeposit => tasks.fold<int>(
+        0,
+        (final int previousValue, final Task element) {
+          if (element.status == TaskStatus.waiting_deposit) {
+            return previousValue + element.points;
+          }
+          return previousValue;
+        },
+      );
+
+  ///
+  ///
+  ///
+  double get progress {
+    if (goal == 0) {
+      return 0;
+    }
+    return balance / goal;
   }
 }

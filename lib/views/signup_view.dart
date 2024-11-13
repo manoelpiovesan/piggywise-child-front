@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/user_consumer.dart';
 import 'package:piggywise_child_front/models/user.dart';
+import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/login_view.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 ///
 ///
@@ -29,6 +32,7 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: const CupertinoNavigationBar(
         middle: Text('Registrar'),
       ),
@@ -36,8 +40,17 @@ class _SignUpViewState extends State<SignUpView> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              Utils.spacer,
+
+              /// Random Avatar
+              RandomAvatar(
+                user.username.isEmpty ? 'PiggyWise' : user.username,
+                width: 100,
+                height: 100,
+              ),
+
               /// Login Fields
-              CupertinoFormSection(
+              CupertinoFormSection.insetGrouped(
                 header: const Text('Informações de Registro'),
                 children: <Widget>[
                   /// Exception
@@ -61,7 +74,9 @@ class _SignUpViewState extends State<SignUpView> {
                     prefix: const Icon(CupertinoIcons.person),
                     placeholder: 'Nome de Usuário',
                     onChanged: (final String value) {
-                      user.username = value;
+                      setState(() {
+                        user.username = value;
+                      });
                     },
                   ),
 
@@ -80,14 +95,28 @@ class _SignUpViewState extends State<SignUpView> {
 
               /// Parent or Child
               CupertinoSegmentedControl<int>(
-                children: const <int, Widget>{
+                children: <int, Widget>{
                   0: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text('Criança'),
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(Icons.child_care),
+                        Utils.spacer,
+                        const Text('Criança'),
+                      ],
+                    ),
                   ),
                   1: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text('Responsável'),
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        const Icon(Icons.escalator_warning),
+                        Utils.spacer,
+                        const Text('Responsável'),
+                      ],
+                    ),
                   ),
                 },
                 groupValue: _child ? 0 : 1,

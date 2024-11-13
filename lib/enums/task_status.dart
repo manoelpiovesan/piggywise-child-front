@@ -3,6 +3,7 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/models/task.dart';
 
 ///
@@ -17,17 +18,17 @@ enum TaskStatus {
   in_progress(
     color: CupertinoColors.systemBlue,
     iconData: CupertinoIcons.play_arrow,
-    translation: 'Em progresso',
+    translation: 'Em Progresso',
   ),
   waiting_approval(
     color: CupertinoColors.systemOrange,
     iconData: CupertinoIcons.hourglass,
-    translation: 'Aguardando aprovação',
+    translation: 'Aguardando Aprovação',
   ),
   waiting_deposit(
     color: CupertinoColors.systemOrange,
-    iconData: CupertinoIcons.hourglass,
-    translation: 'Aguardando depósito',
+    iconData: Icons.currency_exchange,
+    translation: 'Aguardando Depósito',
   ),
   done(
     color: CupertinoColors.systemGreen,
@@ -59,6 +60,8 @@ enum TaskStatus {
         return TaskStatus.in_progress;
       case 'waiting_approval':
         return TaskStatus.waiting_approval;
+      case 'waiting_deposit':
+        return TaskStatus.waiting_deposit;
       case 'done':
         return TaskStatus.done;
       default:

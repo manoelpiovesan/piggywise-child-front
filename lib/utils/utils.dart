@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:piggywise_child_front/utils/config.dart';
 
 ///
@@ -72,7 +73,7 @@ class Utils {
   ///
   ///
   ///
-  static SizedBox get spacer => const SizedBox(height: 16);
+  static SizedBox get spacer => const SizedBox(height: 16, width: 8);
 
   ///
   ///
@@ -93,5 +94,15 @@ class Utils {
         ],
       ),
     );
+  }
+
+  ///
+  ///
+  ///
+  static String formatDate(final DateTime? date) {
+    if (date == null) {
+      return '';
+    }
+    return DateFormat('dd/MM HH:mm').format(date);
   }
 }

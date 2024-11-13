@@ -6,6 +6,7 @@ import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/piggy/piggy_sync_form.dart';
 import 'package:piggywise_child_front/widgets/hideable_code_widget.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 ///
 ///
@@ -49,9 +50,12 @@ class _FamilyDetailsState extends State<FamilyDetails> {
               final List<Widget> usersList = snapshot.data!
                   .map(
                     (final User user) => CupertinoListTile(
+                      padding: const EdgeInsets.all(16),
+                      leading: RandomAvatar(user.username),
                       title: Text(user.name),
                       subtitle: Text('@${user.username}'),
-                      leading: user.isParent
+                      additionalInfo: Text(user.isParent ? 'Responsável' : ''),
+                      trailing: user.isParent
                           ? const Icon(Icons.escalator_warning)
                           : const Icon(Icons.child_care),
                     ),

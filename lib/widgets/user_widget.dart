@@ -4,6 +4,7 @@ import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/login_view.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 ///
 ///
@@ -35,9 +36,7 @@ class UserWidget extends StatelessWidget {
         trailing: user.isParent
             ? const Icon(Icons.escalator_warning)
             : const Icon(Icons.child_care),
-        leading: CircleAvatar(
-          child: Text(user.name[0]),
-        ),
+        leading: RandomAvatar(user.username, height: 70, width: 70),
         additionalInfo: Text(user.isParent ? 'Responsável' : 'Criança'),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
