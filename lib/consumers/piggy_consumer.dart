@@ -1,4 +1,5 @@
 import 'package:agattp/agattp.dart';
+import 'package:flutter/foundation.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/utils/config.dart';
@@ -21,11 +22,17 @@ class PiggyConsumer {
       username: Session().user!.username,
       password: Session().user!.password,
     ).getJson(
-      Uri.parse(<String>[Config().backUrl, 'piggies', 'sync', code].join('/') +
-          '?name=$name&description=$description&goal=$goal'),
+      Uri.parse('${<String>[
+        Config().backUrl,
+        'piggies',
+        'sync',
+        code,
+      ].join('/')}?name=$name&description=$description&goal=$goal'),
     );
 
-    print(response.json);
+    if (kDebugMode) {
+      print(response.json);
+    }
 
     if (response.statusCode > 299 || response.statusCode < 200) {
       throw Exception('Falha ao resgatar os usuários da família');
@@ -45,7 +52,9 @@ class PiggyConsumer {
       Uri.parse(<String>[Config().backUrl, 'piggies'].join('/')),
     );
 
-    print(response.json);
+    if (kDebugMode) {
+      print(response.json);
+    }
 
     if (response.statusCode > 299 || response.statusCode < 200) {
       throw Exception('Falha ao resgatar os cofrinhos');

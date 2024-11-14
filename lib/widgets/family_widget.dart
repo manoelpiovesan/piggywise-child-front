@@ -38,60 +38,66 @@ class _FamilyWidgetState extends State<FamilyWidget> {
         } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         } else if (snapshot.data == null) {
-          return CupertinoListTile(
-            leading: const Icon(CupertinoIcons.group_solid),
-            onTap: () async {
-              await _joinOrCreateFamily(context);
-              setState(() {});
-            },
-            trailing: const CupertinoListTileChevron(),
-            title: const Text(
-              'Crie ou se junte a uma família',
-            ),
+          return CupertinoListSection.insetGrouped(
+            margin: const EdgeInsets.all(12),
+            children: <Widget>[
+              CupertinoListTile(
+                leading: const Icon(CupertinoIcons.group_solid),
+                onTap: () async {
+                  await _joinOrCreateFamily(context);
+                  setState(() {});
+                },
+                trailing: const CupertinoListTileChevron(),
+                title: const Text(
+                  'Crie ou se junte a uma família',
+                ),
+              ),
+            ],
           ); // Levar para criar uma familia
         } else {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: CupertinoColors.systemGroupedBackground,
-              ),
-            ),
-            margin: const EdgeInsets.all(8),
-            padding: const EdgeInsets.all(8),
-            child: Column(
-              children: <Widget>[
-                /// Family Info
-                CupertinoListTile(
-                  onTap: () => Utils.nav(
-                    context,
-                    FamilyDetails(
-                      family: snapshot.data!,
-                    ),
-                  ),
-                  leading: const Icon(CupertinoIcons.group_solid),
-                  trailing: const CupertinoListTileChevron(),
-                  additionalInfo: Text('${snapshot.data!.usersQty} membros'),
-                  title: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          return Column(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  /// Family Info
+                  CupertinoListSection.insetGrouped(
+                    margin: const EdgeInsets.all(12),
                     children: <Widget>[
-                      const Text(
-                        'Família',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: CupertinoColors.systemGrey,
+                      CupertinoListTile(
+                        padding: const EdgeInsets.all(16),
+                        onTap: () => Utils.nav(
+                          context,
+                          FamilyDetails(
+                            family: snapshot.data!,
+                          ),
+                        ),
+                        leading: const Icon(CupertinoIcons.group_solid),
+                        trailing: const CupertinoListTileChevron(),
+                        additionalInfo:
+                            Text('${snapshot.data!.usersQty} membros'),
+                        title: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            const Text(
+                              'Família',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                            Text(snapshot.data!.name),
+                          ],
                         ),
                       ),
-                      Text(snapshot.data!.name),
                     ],
                   ),
-                ),
+                ],
+              ),
 
-                /// Piggies
-                const PiggyListWidget(),
-              ],
-            ),
+              /// Piggies
+              const PiggyListWidget(),
+            ],
           );
         }
       },

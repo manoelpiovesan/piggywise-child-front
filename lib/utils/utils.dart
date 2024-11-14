@@ -105,4 +105,13 @@ class Utils {
     }
     return DateFormat('dd/MM HH:mm').format(date);
   }
+
+  ///
+  ///
+  ///
+  static void get toggleTheme {
+    Config.instance.brightness = Config.instance.brightness == Brightness.light
+        ? Brightness.dark
+        : Brightness.light;
+  }
 }

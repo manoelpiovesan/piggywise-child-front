@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/widgets/form_prefix.dart';
 
 ///
 ///
@@ -27,18 +28,27 @@ class _JoinFamilyFormState extends State<JoinFamilyForm> {
   @override
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: Utils().navBar(title: 'Entrar em uma família'),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              CupertinoFormSection(
+              Utils.spacer,
+
+              /// Form
+              CupertinoFormSection.insetGrouped(
                 children: <Widget>[
                   /// Family Code
-                  CupertinoTextFormFieldRow(
-                    prefix: const Icon(CupertinoIcons.group_solid),
-                    placeholder: 'Código da Família',
-                    controller: _familyCodeController,
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.group_solid,
+                      text: 'Código da Família',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Código da Família',
+                      controller: _familyCodeController,
+                    ),
                   ),
                 ],
               ),

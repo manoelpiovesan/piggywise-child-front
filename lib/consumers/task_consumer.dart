@@ -26,7 +26,9 @@ class TaskConsumer {
       body: task.toMap(),
     );
 
-    print('TaskConsumer.create: ${response.json}');
+    if (kDebugMode) {
+      print('TaskConsumer.create: ${response.json}');
+    }
 
     if (response.statusCode > 299 || response.statusCode < 200) {
       throw Exception('Falha ao resgatar a tarefa');

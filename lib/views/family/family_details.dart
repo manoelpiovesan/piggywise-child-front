@@ -107,7 +107,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                     Utils.spacer,
 
                     /// Sync Piggy
-                    _syncPiggy(context)
+                    _syncPiggy(context),
                   ],
                 ),
               );
@@ -121,10 +121,15 @@ class _FamilyDetailsState extends State<FamilyDetails> {
   ///
   ///
   ///
-  Widget _syncPiggy(final BuildContext context) => CupertinoListTile(
-        onTap: () => Utils.nav(context, const PiggySyncForm()),
-        leading: const Icon(CupertinoIcons.add),
-        title: const Text('Sincronize seu PiggyWise'),
-        trailing: const CupertinoListTileChevron(),
+  Widget _syncPiggy(final BuildContext context) =>
+      CupertinoListSection.insetGrouped(
+        children: <Widget>[
+          CupertinoListTile(
+            onTap: () => Utils.nav(context, const PiggySyncForm()),
+            leading: const Icon(CupertinoIcons.add),
+            title: const Text('Sincronize seu PiggyWise'),
+            trailing: const CupertinoListTileChevron(),
+          ),
+        ],
       );
 }

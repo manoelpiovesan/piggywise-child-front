@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/home_view.dart';
+import 'package:piggywise_child_front/widgets/form_prefix.dart';
 
 ///
 ///
@@ -29,40 +29,63 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
   @override
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: Utils().navBar(title: 'Sincronizar PiggyWise'),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              CupertinoFormSection(
+              Utils.spacer,
+              CupertinoFormSection.insetGrouped(
                 children: <Widget>[
                   /// Name
-                  CupertinoTextFormFieldRow(
-                    controller: _nameController,
-                    prefix: const Icon(Icons.chat_bubble),
-                    placeholder: 'Escolha um nome para o Cofrinho',
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.person,
+                      text: 'Nome',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      controller: _nameController,
+                      placeholder: 'Escolha um nome para o seu Piggy',
+                    ),
                   ),
 
                   /// Description
-                  CupertinoTextFormFieldRow(
-                    controller: _descriptionController,
-                    prefix: const Icon(Icons.description),
-                    placeholder: 'Descrição do Cofrinho',
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.text_bubble,
+                      text: 'Descrição',
+                      optional: true,
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      controller: _descriptionController,
+                      placeholder: 'Descrição do Cofrinho',
+                    ),
                   ),
 
                   /// Goal
-                  CupertinoTextFormFieldRow(
-                    controller: _goalController,
-                    keyboardType: TextInputType.number,
-                    prefix: const Icon(Icons.monetization_on_outlined),
-                    placeholder: 'Meta do Cofrinho',
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.money_dollar,
+                      text: 'Meta',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      controller: _goalController,
+                      keyboardType: TextInputType.number,
+                      placeholder: 'Meta do Cofrinho',
+                    ),
                   ),
 
                   /// Piggy Code
-                  CupertinoTextFormFieldRow(
-                    controller: _piggyCodeController,
-                    prefix: const Icon(Icons.punch_clock_rounded),
-                    placeholder: 'Código do PiggyWise',
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.qrcode,
+                      text: 'Código',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      controller: _piggyCodeController,
+                      placeholder: 'Código do PiggyWise',
+                    ),
                   ),
                 ],
               ),

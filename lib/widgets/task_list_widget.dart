@@ -46,15 +46,13 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                       'Adicionar Tarefa',
                     ),
                     onPressed: () async {
-                        await Utils.nav(
-                          context,
-                          TaskCreateForm(
-                            piggy: snapshot.data!,
-                          ),
-                        );
-                      setState(() {
-
-                      });
+                      await Utils.nav(
+                        context,
+                        TaskCreateForm(
+                          piggy: snapshot.data!,
+                        ),
+                      );
+                      setState(() {});
                     },
                   ),
               ],
@@ -74,7 +72,9 @@ class _TaskListWidgetState extends State<TaskListWidget> {
   ///
   ///
   List<CupertinoListTile> _taskList(
-          final BuildContext context, final Piggy piggy) =>
+    final BuildContext context,
+    final Piggy piggy,
+  ) =>
       piggy.tasks.isNotEmpty
           ? piggy.tasks
               .map(
@@ -88,9 +88,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                       ),
                     );
 
-                    setState(() {
-                      print('Task updated');
-                    });
+                    setState(() {});
                   },
                   title: Text(
                     task.name,
@@ -130,22 +128,4 @@ class _TaskListWidgetState extends State<TaskListWidget> {
       ),
     ];
   }
-
-  ///
-  ///
-  ///
-  Widget _pointsBadge(final int points) => Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: CupertinoColors.systemGrey,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          '$points pts',
-          style: const TextStyle(
-            color: CupertinoColors.white,
-            fontSize: 12,
-          ),
-        ),
-      );
 }

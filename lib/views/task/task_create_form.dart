@@ -3,7 +3,7 @@ import 'package:piggywise_child_front/consumers/task_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/models/task.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
-import 'package:piggywise_child_front/views/task/task_details_view.dart';
+import 'package:piggywise_child_front/widgets/form_prefix.dart';
 
 ///
 ///
@@ -40,40 +40,61 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
               CupertinoFormSection.insetGrouped(
                 children: <Widget>[
                   /// Task name
-                  CupertinoTextFormFieldRow(
-                    prefix: const Icon(CupertinoIcons.person),
-                    placeholder: 'Nome da Tarefa',
-                    onChanged: (final String value) {
-                      task.name = value;
-                    },
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.textformat,
+                      text: 'Nome',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Nome da Tarefa',
+                      onChanged: (final String value) {
+                        task.name = value;
+                      },
+                    ),
                   ),
 
                   /// Task description
-                  CupertinoTextFormFieldRow(
-                    prefix: const Icon(CupertinoIcons.text_bubble),
-                    placeholder: 'Descrição',
-                    onChanged: (final String value) {
-                      task.description = value;
-                    },
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.text_bubble,
+                      text: 'Descrição',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Descrição',
+                      onChanged: (final String value) {
+                        task.description = value;
+                      },
+                    ),
                   ),
 
                   /// Task points
-                  CupertinoTextFormFieldRow(
-                    prefix: const Icon(CupertinoIcons.money_dollar),
-                    placeholder: 'Pontos',
-                    keyboardType: TextInputType.number,
-                    onChanged: (final String value) {
-                      task.points = int.parse(value);
-                    },
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.money_dollar,
+                      text: 'Pontos',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Pontos',
+                      keyboardType: TextInputType.number,
+                      onChanged: (final String value) {
+                        task.points = int.parse(value);
+                      },
+                    ),
                   ),
 
                   /// Task due date
-                  CupertinoListTile(
-                    leading: const Icon(CupertinoIcons.calendar),
-                    title: const Text('Data de Vencimento'),
-                    onTap: () async => _showModal(context),
-                    trailing: Text(
-                      Utils.formatDate(task.dueDate),
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.calendar,
+                      text: 'Data de Vencimento',
+                    ),
+                    child: CupertinoListTile(
+                      onTap: () async => _showModal(context),
+                      title: Text(
+                        Utils.formatDate(task.dueDate).isEmpty
+                            ? 'Selecione a data'
+                            : Utils.formatDate(task.dueDate),
+                      ),
                     ),
                   ),
                 ],

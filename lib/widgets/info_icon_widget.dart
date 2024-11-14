@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 
 ///
@@ -28,7 +29,7 @@ class InfoIconWidget extends StatelessWidget {
   ) {
     return Container(
       decoration: BoxDecoration(
-        color: CupertinoColors.systemGroupedBackground,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(8),
       ),
       padding: const EdgeInsets.all(8),

@@ -26,17 +26,20 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: Utils().navBar(),
       child: SafeArea(
-        child: Column(
-          children: <Widget>[
-
-            /// User
-            UserWidget(),
-
-            /// Family
-            const FamilyWidget(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+          
+              /// User
+              UserWidget(),
+          
+              /// Family
+              const FamilyWidget(),
+            ],
+          ),
         ),
       ),
     );

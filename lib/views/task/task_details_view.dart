@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/task_consumer.dart';
 import 'package:piggywise_child_front/enums/task_status.dart';
 import 'package:piggywise_child_front/models/session.dart';

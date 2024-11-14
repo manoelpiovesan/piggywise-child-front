@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/widgets/form_prefix.dart';
 
 ///
 ///
@@ -25,16 +27,24 @@ class _FamilyCreateFormState extends State<FamilyCreateForm> {
   @override
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: Utils().navBar(
         title: 'Criar Família',
       ),
       child: SafeArea(
         child: Column(
           children: <Widget>[
-            CupertinoFormSection(
+            Utils.spacer,
+
+            /// Form
+            CupertinoFormSection.insetGrouped(
               children: <Widget>[
                 /// Name
                 CupertinoFormRow(
+                  prefix: const FormPrefix(
+                    icon: Icons.group,
+                    text: 'Nome',
+                  ),
                   child: CupertinoTextFormFieldRow(
                     placeholder: 'Nome',
                     onChanged: (final String value) {
@@ -45,6 +55,11 @@ class _FamilyCreateFormState extends State<FamilyCreateForm> {
 
                 /// Description
                 CupertinoFormRow(
+                  prefix: const FormPrefix(
+                    icon: Icons.text_fields,
+                    text: 'Descrição',
+                    optional: true,
+                  ),
                   child: CupertinoTextFormFieldRow(
                     placeholder: 'Descrição',
                     onChanged: (final String value) {
@@ -54,9 +69,10 @@ class _FamilyCreateFormState extends State<FamilyCreateForm> {
                 ),
               ],
             ),
+            Utils.spacer,
 
             /// Save Button
-            CupertinoButton(
+            CupertinoButton.filled(
               child: const Text('Criar Família'),
               onPressed: () {
                 try {

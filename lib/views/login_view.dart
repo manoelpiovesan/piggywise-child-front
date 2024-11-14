@@ -5,6 +5,7 @@ import 'package:piggywise_child_front/utils/config.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/home_view.dart';
 import 'package:piggywise_child_front/views/signup_view.dart';
+import 'package:piggywise_child_front/widgets/form_prefix.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 ///
@@ -81,24 +82,34 @@ class _LoginViewState extends State<LoginView> {
               CupertinoFormSection.insetGrouped(
                 children: <Widget>[
                   /// Username
-                  CupertinoTextFormFieldRow(
-                    prefix: const Icon(CupertinoIcons.person),
-                    placeholder: 'Usuário',
-                    onChanged: (final String value) {
-                      setState(() {
-                        user.username = value;
-                      });
-                    },
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.person,
+                      text: 'Usuário',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Usuário',
+                      onChanged: (final String value) {
+                        setState(() {
+                          user.username = value;
+                        });
+                      },
+                    ),
                   ),
 
                   /// Password
-                  CupertinoTextFormFieldRow(
-                    prefix: const Icon(CupertinoIcons.lock),
-                    placeholder: 'Senha',
-                    obscureText: true,
-                    onChanged: (final String value) {
-                      user.password = value;
-                    },
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.lock,
+                      text: 'Senha',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Senha',
+                      obscureText: true,
+                      onChanged: (final String value) {
+                        user.password = value;
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -110,7 +121,7 @@ class _LoginViewState extends State<LoginView> {
                   message!,
                   style: const TextStyle(color: CupertinoColors.systemOrange),
                 ),
-              _spacer,
+              if(message != null) _spacer,
 
               /// Enter Button
               CupertinoButton.filled(
@@ -120,7 +131,7 @@ class _LoginViewState extends State<LoginView> {
 
               /// Sign Up Button
               CupertinoButton(
-                child: const Text('Registrar'),
+                child: const Text('Cadastre-se'),
                 onPressed: () => Utils.nav(context, const SignUpView()),
               ),
             ],

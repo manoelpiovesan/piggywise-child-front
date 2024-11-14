@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -40,13 +38,6 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
       navigationBar: Utils().navBar(
         previousTitle: widget.previousTitle,
         title: 'Cofrinho',
-        trailing: CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: const Text(
-            'Editar',
-          ),
-          onPressed: () {},
-        ),
       ),
       child: FutureBuilder<Piggy?>(
         future: PiggyConsumer().getById(widget.piggyId),
@@ -122,7 +113,6 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: <Widget>[
-
             Utils.spacer,
 
             /// Piggy Info
@@ -136,7 +126,7 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                     const Text(
                       'Saldo Atual',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 18,
                       ),
                     ),
 
@@ -144,65 +134,59 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                     Text(
                       '${piggy.balance}',
                       style: const TextStyle(
-                        fontSize: 24,
+                        fontSize: 34,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
 
                     /// Waiting deposit
-                    Text(
-                      '+ ${piggy.waitingDeposit} aguardando depósito.',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: CupertinoColors.systemGrey,
+                    if (piggy.waitingDeposit > 0)
+                      Text(
+                        '+ ${piggy.waitingDeposit}\naguardando depósito.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: CupertinoColors.systemGrey,
+                        ),
                       ),
-                    ),
                   ],
                 ),
 
                 /// Goal
-                Column(
-                  children: <Widget>[
-
-                    /// Percentage
-                    CircularPercentIndicator(
-                      radius: 50,
-                      lineWidth: 10,
-                      percent: piggy.progress,
-                      linearGradient: const LinearGradient(
-                        colors: <Color>[
-                          Colors.blue,
-                          Colors.purple,
-                        ],
+                CircularPercentIndicator(
+                  radius: 50,
+                  lineWidth: 10,
+                  percent: piggy.progress,
+                  linearGradient: LinearGradient(
+                    colors: <Color>[
+                      Colors.purple.shade50,
+                      Colors.purple,
+                    ],
+                  ),
+                  center: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        '${(piggy.progress * 100).toStringAsFixed(0)}%',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
                       ),
-                      center: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(
-                            '${(piggy.progress * 100).toStringAsFixed(0)}%',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          ),
-                          Text(
-                            piggy.goal.toString(),
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        piggy.goal.toString(),
+                        style: const TextStyle(
+                          fontSize: 12,
+                        ),
                       ),
-                      backgroundColor: Colors.grey,
-                    ),
-                  ],
+                    ],
+                  ),
+                  backgroundColor: Colors.grey,
                 ),
               ],
             ),
 
             Utils.spacer,
-
-
           ],
         ),
       );

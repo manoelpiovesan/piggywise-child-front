@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
@@ -35,30 +37,21 @@ class PiggyListWidget extends StatelessWidget {
         } else {
           final List<Widget> piggiesList = snapshot.data!
               .map(
-                (final Piggy piggy) => CupertinoListTile(
-                  onTap: () => Utils.nav(
-                    context,
-                    PiggyDetailsView(
-                      piggyId: piggy.id,
-                      previousTitle: 'Início',
-                    ),
-                  ),
-                  trailing: const CupertinoListTileChevron(),
-                  title: Text(piggy.name),
-                  subtitle: Text(piggy.code),
-                  additionalInfo: Text('${piggy.balance} / ${piggy.goal}'),
-                  leading: const Icon(Icons.punch_clock_rounded),
-                ),
+                (final Piggy piggy) =>
+                    _piggyCard(context, piggy, snapshot.data!.length),
               )
               .toList();
 
           return SafeArea(
-            child: CupertinoListSection.insetGrouped(
-              backgroundColor: CupertinoColors.white,
-              header: const Text('Seus Piggies'),
-              children: <Widget>[
-                ...piggiesList,
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: GridView.count(
+                shrinkWrap: true,
+                crossAxisCount: piggiesList.length > 1 ? 2 : 1,
+                children: <Widget>[
+                  ...piggiesList,
+                ],
+              ),
             ),
           );
         }
@@ -74,5 +67,84 @@ class PiggyListWidget extends StatelessWidget {
         leading: const Icon(CupertinoIcons.add),
         title: const Text('Sincronize seu PiggyWise'),
         trailing: const CupertinoListTileChevron(),
+      );
+
+  ///
+  ///
+  ///
+  Widget _piggyCard(
+    final BuildContext context,
+    final Piggy piggy,
+    final int length,
+  ) =>
+      GestureDetector(
+        onTap: () => Utils.nav(
+          context,
+          PiggyDetailsView(piggyId: piggy.id),
+        ),
+        child: Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              /// Piggy Circle
+              CircularPercentIndicator(
+                radius: length > 1 ? 50 : 150,
+                lineWidth: length > 1 ? 10 : 16,
+                percent: piggy.progress,
+                linearGradient: LinearGradient(
+                  colors: <Color>[
+                    Colors.purple.shade100,
+                    Colors.purple,
+                  ],
+                ),
+                center: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    /// Image
+                    SvgPicture.asset(
+                      'assets/images/piggy.svg',
+                      height: length > 1 ? 60 : 90,
+                      colorFilter: const ColorFilter.mode(
+                        Colors.grey,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ],
+                ),
+                backgroundColor: Colors.grey,
+              ),
+              Utils.spacer,
+
+              /// Header
+              Text(
+                piggy.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+
+              /// Balance
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  /// Percentage
+                  Text(
+                    '${(piggy.progress * 100).toStringAsFixed(0)}%',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       );
 }
