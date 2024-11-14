@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 ///
 ///
@@ -7,12 +11,14 @@ class HideableCodeWidget extends StatefulWidget {
   final String code;
   final String? title;
   final bool bordered;
+  final bool showQrCode;
 
   const HideableCodeWidget({
     required this.code,
     this.bordered = true,
     super.key,
     this.title,
+    this.showQrCode = false,
   });
 
   @override
@@ -78,6 +84,19 @@ class _HideableCodeWidgetState extends State<HideableCodeWidget> {
               ),
             ],
           ),
+
+          /// QR Code
+          if (widget.showQrCode && !_isHidden)
+            SizedBox(
+
+              width: 200,
+              child: PrettyQrView.data(
+                data: widget.code,
+                decoration: const PrettyQrDecoration(
+                  background: CupertinoColors.systemGroupedBackground,
+                ),
+              ),
+            ),
         ],
       ),
     );

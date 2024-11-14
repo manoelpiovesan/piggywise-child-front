@@ -93,6 +93,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                           code: widget.family.code,
                           title: 'Código de Convite',
                           bordered: false,
+                          showQrCode: true,
                         ),
                       ],
                     ),
