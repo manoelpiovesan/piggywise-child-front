@@ -63,6 +63,7 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                     TaskListWidget(piggyId: piggy.id),
 
                     /// More info
+                    if(false)
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[

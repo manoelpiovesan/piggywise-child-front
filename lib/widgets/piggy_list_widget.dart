@@ -85,7 +85,7 @@ class PiggyListWidget extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: CupertinoColors.systemFill,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(

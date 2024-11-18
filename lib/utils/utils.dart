@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:piggywise_child_front/utils/config.dart';
@@ -73,6 +75,29 @@ class Utils {
   ///
   ///
   ///
+  void showModal(
+    final BuildContext context,
+    final Widget page, {
+    final double? height,
+    final Color? color,
+  }) {
+    showCupertinoModalPopup<void>(
+      context: context,
+      builder: (final BuildContext context) => Container(
+        decoration: BoxDecoration(color: color),
+        width: MediaQuery.of(context).size.width,
+        height: height ?? MediaQuery.of(context).size.height * 0.8,
+        color: Config.instance.brightness == Brightness.light
+            ? CupertinoColors.white
+            : CupertinoColors.black,
+        child: page,
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
   static SizedBox get spacer => const SizedBox(height: 16, width: 8);
 
   ///
@@ -90,6 +115,32 @@ class Utils {
               Navigator.pop(context);
             },
             child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  ///
+  ///
+  ///
+  void alertWidget(
+    final BuildContext context,
+    final Widget widget, {
+    final String title = '',
+    final String confirmText = 'Fechar',
+  }) {
+    showCupertinoDialog<void>(
+      context: context,
+      builder: (final BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: widget,
+        actions: <Widget>[
+          CupertinoDialogAction(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(confirmText),
           ),
         ],
       ),

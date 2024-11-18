@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 
 ///
@@ -65,9 +63,18 @@ class _HideableCodeWidgetState extends State<HideableCodeWidget> {
               /// Hide Button
               CupertinoButton(
                 padding: EdgeInsets.zero,
-                onPressed: () => setState(() {
-                  _isHidden = !_isHidden;
-                }),
+                onPressed: () {
+                  if (_isHidden) {
+                    Utils().alertWidget(
+                      context,
+                      qrCodeWidget(widget.code),
+                    );
+                  }
+
+                  setState(() {
+                    _isHidden = !_isHidden;
+                  });
+                },
                 child: Icon(
                   _isHidden ? CupertinoIcons.eye : CupertinoIcons.eye_slash,
                 ),
@@ -84,21 +91,35 @@ class _HideableCodeWidgetState extends State<HideableCodeWidget> {
               ),
             ],
           ),
-
-          /// QR Code
-          if (widget.showQrCode && !_isHidden)
-            SizedBox(
-
-              width: 200,
-              child: PrettyQrView.data(
-                data: widget.code,
-                decoration: const PrettyQrDecoration(
-                  background: CupertinoColors.systemGroupedBackground,
-                ),
-              ),
-            ),
         ],
       ),
     );
   }
+
+  ///
+  ///
+  ///
+  Widget qrCodeWidget(final String code) => SizedBox(
+        width: 100,
+        child: Column(
+          children: <Widget>[
+            /// QR Code
+            Container(
+              padding: const EdgeInsets.all(8),
+              color: CupertinoColors.white,
+              width: 200,
+              child: PrettyQrView.data(
+                data: widget.code,
+              ),
+            ),
+            Utils.spacer,
+
+            /// Title
+            Text(
+              code,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ],
+        ),
+      );
 }
