@@ -3,6 +3,7 @@ import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/home_view.dart';
 import 'package:piggywise_child_front/widgets/form_prefix.dart';
+import 'package:qrcode_reader_web/qrcode_reader_web.dart';
 
 ///
 ///
@@ -21,6 +22,7 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
   final TextEditingController _piggyCodeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  bool _read = false;
 
   ///
   ///
@@ -32,56 +34,78 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
       navigationBar: Utils().navBar(title: 'Sincronizar PiggyWise'),
       child: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Utils.spacer,
-              CupertinoFormSection.insetGrouped(
-                children: <Widget>[
-                  /// Name
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.person,
-                      text: 'Nome',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      controller: _nameController,
-                      placeholder: 'Escolha um nome para o seu Piggy',
-                    ),
-                  ),
+          child: _read
+              ? Column(
+                  children: <Widget>[
+                    Utils.spacer,
+                    CupertinoFormSection.insetGrouped(
+                      children: <Widget>[
+                        /// Name
+                        CupertinoFormRow(
+                          prefix: const FormPrefix(
+                            icon: CupertinoIcons.person,
+                            text: 'Nome',
+                          ),
+                          child: CupertinoTextFormFieldRow(
+                            controller: _nameController,
+                            placeholder: 'Escolha um nome para o seu Piggy',
+                          ),
+                        ),
 
-                  /// Description
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.text_bubble,
-                      text: 'Descrição',
-                      optional: true,
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      controller: _descriptionController,
-                      placeholder: 'Descrição do Cofrinho',
-                    ),
-                  ),
+                        /// Description
+                        CupertinoFormRow(
+                          prefix: const FormPrefix(
+                            icon: CupertinoIcons.text_bubble,
+                            text: 'Descrição',
+                            optional: true,
+                          ),
+                          child: CupertinoTextFormFieldRow(
+                            controller: _descriptionController,
+                            placeholder: 'Descrição do Cofrinho',
+                          ),
+                        ),
 
-                  /// Piggy Code
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.qrcode,
-                      text: 'Código',
+                        /// Piggy Code
+                        CupertinoFormRow(
+                          prefix: const FormPrefix(
+                            icon: CupertinoIcons.qrcode,
+                            text: 'Código',
+                          ),
+                          child: CupertinoTextFormFieldRow(
+                            controller: _piggyCodeController,
+                            placeholder: 'Código do PiggyWise',
+                          ),
+                        ),
+                      ],
                     ),
-                    child: CupertinoTextFormFieldRow(
-                      controller: _piggyCodeController,
-                      placeholder: 'Código do PiggyWise',
+                    Utils.spacer,
+                    CupertinoButton.filled(
+                      onPressed: () async => _syncPiggy(context),
+                      child: const Text('Sincronizar'),
                     ),
-                  ),
-                ],
-              ),
-              Utils.spacer,
-              CupertinoButton.filled(
-                onPressed: () async => _syncPiggy(context),
-                child: const Text('Sincronizar'),
-              ),
-            ],
-          ),
+                  ],
+                )
+              : Column(
+                  children: <Widget>[
+                    Utils.spacer,
+                    QRCodeReaderSquareWidget(
+                      onDetect: (final QRCodeCapture capture) async {
+                        setState(() {
+                          _piggyCodeController.text = capture.raw;
+                          _read = true;
+                        });
+                      },
+                      size: 250,
+                    ),
+                    Utils.spacer,
+                    CupertinoButton.filled(
+                      onPressed: () => setState(() {
+                        _read = true;
+                      }),
+                      child: const Text('Inserir manualmente'),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

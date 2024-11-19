@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 ///
 ///
@@ -12,7 +13,8 @@ class Config {
 
   static Config get instance => _instance;
 
-  String backUrl = 'http://147.93.129.20:8080';
+  String backUrl =
+      kDebugMode ? 'http://localhost:8080' : 'http://147.93.129.20:8080';
 
   String appName = 'PiggyWise';
 

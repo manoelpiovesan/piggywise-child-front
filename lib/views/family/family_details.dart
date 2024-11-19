@@ -63,53 +63,55 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   .toList();
 
               return SafeArea(
-                child: Column(
-                  children: <Widget>[
-                    Utils.spacer,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Utils.spacer,
 
-                    /// Family Info
-                    Column(
-                      children: <Widget>[
-                        /// Title
-                        const Text(
-                          'Família',
-                          style: TextStyle(
-                            fontSize: 14,
+                      /// Family Info
+                      Column(
+                        children: <Widget>[
+                          /// Title
+                          const Text(
+                            'Família',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
                           ),
-                        ),
 
-                        /// Family Name
-                        Text(
-                          widget.family.name,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                          /// Family Name
+                          Text(
+                            widget.family.name,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        Utils.spacer,
+                          Utils.spacer,
 
-                        /// Family Code
-                        HideableCodeWidget(
-                          code: widget.family.code,
-                          title: 'Código de Convite',
-                          bordered: false,
-                          showQrCode: true,
-                        ),
-                      ],
-                    ),
-                    Utils.spacer,
+                          /// Family Code
+                          HideableCodeWidget(
+                            code: widget.family.code,
+                            title: 'Código de Convite',
+                            bordered: false,
+                            showQrCode: true,
+                          ),
+                        ],
+                      ),
+                      Utils.spacer,
 
-                    /// Users
-                    CupertinoListSection.insetGrouped(
-                      header: const Text('Membros da família'),
-                      children: usersList,
-                    ),
+                      /// Users
+                      CupertinoListSection.insetGrouped(
+                        header: const Text('Membros da família'),
+                        children: usersList,
+                      ),
 
-                    Utils.spacer,
+                      Utils.spacer,
 
-                    /// Sync Piggy
-                    _syncPiggy(context),
-                  ],
+                      /// Sync Piggy
+                      _syncPiggy(context),
+                    ],
+                  ),
                 ),
               );
             }

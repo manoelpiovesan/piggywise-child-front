@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
@@ -21,8 +22,7 @@ class JoinFamilyForm extends StatefulWidget {
 ///
 class _JoinFamilyFormState extends State<JoinFamilyForm> {
   final TextEditingController _familyCodeController = TextEditingController();
-  bool readed = false;
-
+  bool read = false;
   String? message;
 
   ///
@@ -35,55 +35,68 @@ class _JoinFamilyFormState extends State<JoinFamilyForm> {
       navigationBar: Utils().navBar(title: 'Entrar em uma família'),
       child: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Utils.spacer,
+          child: read
+              ? Column(
+                  children: <Widget>[
+                    Utils.spacer,
 
-              /// QrCode
-              if (!readed)
-                QRCodeReaderSquareWidget(
-                  onDetect: (final QRCodeCapture capture) async {
-                    setState(() {
-                      _familyCodeController.text = capture.raw;
-                      readed = true;
-                    });
-                  },
-                  size: 250,
-                ),
-
-              /// Form
-              CupertinoFormSection.insetGrouped(
-                children: <Widget>[
-                  /// Family Code
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.group_solid,
-                      text: 'Código da Família',
+                    /// Form
+                    CupertinoFormSection.insetGrouped(
+                      children: <Widget>[
+                        /// Family Code
+                        CupertinoFormRow(
+                          prefix: const FormPrefix(
+                            icon: CupertinoIcons.group_solid,
+                            text: 'Código da Família',
+                          ),
+                          child: CupertinoTextFormFieldRow(
+                            placeholder: 'Código da Família',
+                            controller: _familyCodeController,
+                          ),
+                        ),
+                      ],
                     ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: 'Código da Família',
-                      controller: _familyCodeController,
+                    Utils.spacer,
+
+                    if (message != null)
+                      Text(
+                        message!,
+                        style:
+                            const TextStyle(color: CupertinoColors.systemRed),
+                      ),
+                    if (message != null) Utils.spacer,
+
+                    /// Button
+                    CupertinoButton.filled(
+                      child: const Text('Entrar'),
+                      onPressed: () =>
+                          _joinFamily(context, _familyCodeController.text),
                     ),
-                  ),
-                ],
-              ),
-              Utils.spacer,
+                  ],
+                )
+              : Column(
+                  children: <Widget>[
+                    Utils.spacer,
+                    QRCodeReaderSquareWidget(
+                      onDetect: (final QRCodeCapture capture) async {
+                        setState(() {
+                          _familyCodeController.text = capture.raw;
+                          read = true;
+                        });
 
-              if (message != null)
-                Text(
-                  message!,
-                  style: const TextStyle(color: CupertinoColors.systemRed),
+                        await _joinFamily(context, capture.raw);
+                      },
+                      size: 250,
+                    ),
+                    Utils.spacer,
+                    CupertinoButton.filled(
+                      onPressed: () => setState(() {
+                        read = true;
+                      }),
+                      child: const Text('Inserir manualmente'),
+                    ),
+                  ],
                 ),
-              if (message != null) Utils.spacer,
-
-              /// Button
-              CupertinoButton.filled(
-                child: const Text('Entrar'),
-                onPressed: () =>
-                    _joinFamily(context, _familyCodeController.text),
-              ),
-            ],
-          ),
         ),
       ),
     );
