@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
@@ -98,7 +99,9 @@ class _JoinFamilyFormState extends State<JoinFamilyForm> {
     final Family? family =
         await FamilyConsumer().joinFamily(_familyCodeController.text);
 
-    print('Codigo encontrado: $code');
+    if (kDebugMode) {
+      print('Codigo encontrado: $code');
+    }
 
     if (family != null) {
       if (context.mounted) {

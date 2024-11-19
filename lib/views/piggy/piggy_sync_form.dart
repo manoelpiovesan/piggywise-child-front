@@ -21,7 +21,6 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
   final TextEditingController _piggyCodeController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _goalController = TextEditingController();
 
   ///
   ///
@@ -63,19 +62,6 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
                     ),
                   ),
 
-                  /// Goal
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.money_dollar,
-                      text: 'Meta',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      controller: _goalController,
-                      keyboardType: TextInputType.number,
-                      placeholder: 'Meta do Cofrinho',
-                    ),
-                  ),
-
                   /// Piggy Code
                   CupertinoFormRow(
                     prefix: const FormPrefix(
@@ -110,7 +96,6 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
         _piggyCodeController.text,
         _nameController.text,
         _descriptionController.text,
-        int.parse(_goalController.text),
       );
       if (context.mounted) {
         await Utils.navReplace(context, const HomeView());

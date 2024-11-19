@@ -1,4 +1,4 @@
-import 'package:piggywise_child_front/enums/task_status.dart';
+import 'package:piggywise_child_front/models/reward.dart';
 import 'package:piggywise_child_front/models/task.dart';
 
 ///
@@ -9,8 +9,9 @@ class Piggy {
   String code = '';
   String name = '';
   String? description;
+  int balance = 0;
   List<Task> tasks = <Task>[];
-  int goal = 0;
+  List<Reward> rewards = <Reward>[];
 
   ///
   ///
@@ -20,12 +21,17 @@ class Piggy {
     name = map['name'];
     description = map['description'];
     code = map['code'];
+    balance = map['balance'];
     if (map['tasks'] != null) {
       for (final Map<String, dynamic> task in map['tasks']) {
         tasks.add(Task.fromJson(task));
       }
     }
-    goal = map['goal'];
+    if (map['rewards'] != null) {
+      for (final Map<String, dynamic> reward in map['rewards']) {
+        rewards.add(Reward.fromJson(reward));
+      }
+    }
   }
 
   ///
@@ -36,46 +42,11 @@ class Piggy {
       'id': id,
       'name': name,
       'description': description,
-      'tasks': tasks.map((final Task task) => task.toMap()).toList(),
       'code': code,
       'balance': balance,
-      'goal': goal,
+      'tasks': tasks.map((final Task task) => task.toMap()).toList(),
+      'rewards': rewards.map((final Reward reward) => reward.toMap()).toList(),
     };
   }
 
-  ///
-  ///
-  ///
-  int get balance => tasks.fold<int>(
-        0,
-        (final int previousValue, final Task element) {
-          if (element.status == TaskStatus.done) {
-            return previousValue + element.points;
-          }
-          return previousValue;
-        },
-      );
-
-  ///
-  ///
-  ///
-  int get waitingDeposit => tasks.fold<int>(
-        0,
-        (final int previousValue, final Task element) {
-          if (element.status == TaskStatus.waiting_deposit) {
-            return previousValue + element.points;
-          }
-          return previousValue;
-        },
-      );
-
-  ///
-  ///
-  ///
-  double get progress {
-    if (goal == 0) {
-      return 0;
-    }
-    return balance / goal;
-  }
 }

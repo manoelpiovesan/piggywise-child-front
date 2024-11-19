@@ -15,7 +15,6 @@ class PiggyConsumer {
     final String code,
     final String name,
     final String description,
-    final int goal,
   ) async {
     final AgattpResponseJson<Map<String, dynamic>> response =
         await Agattp.authBasic(
@@ -27,7 +26,7 @@ class PiggyConsumer {
         'piggies',
         'sync',
         code,
-      ].join('/')}?name=$name&description=$description&goal=$goal'),
+      ].join('/')}?name=$name&description=$description'),
     );
 
     if (kDebugMode) {

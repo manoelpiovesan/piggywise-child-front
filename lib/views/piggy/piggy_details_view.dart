@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/widgets/hideable_code_widget.dart';
+import 'package:piggywise_child_front/widgets/rewards_list_widget.dart';
 import 'package:piggywise_child_front/widgets/task_list_widget.dart';
 
 ///
@@ -62,10 +61,14 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                     /// Tasks
                     TaskListWidget(piggyId: piggy.id),
 
+                    /// Rewards
+                    RewardListWidget(piggy: piggy),
+
                     /// More info
                     if(false)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // ignore: dead_code
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Column(
                           mainAxisSize: MainAxisSize.min,
@@ -140,50 +143,40 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                       ),
                     ),
 
-                    /// Waiting deposit
-                    if (piggy.waitingDeposit > 0)
-                      Text(
-                        '+ ${piggy.waitingDeposit}\naguardando depósito.',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: CupertinoColors.systemGrey,
-                        ),
-                      ),
                   ],
                 ),
 
-                /// Goal
-                CircularPercentIndicator(
-                  radius: 50,
-                  lineWidth: 10,
-                  percent: piggy.progress,
-                  linearGradient: LinearGradient(
-                    colors: <Color>[
-                      Colors.purple.shade50,
-                      Colors.purple,
-                    ],
-                  ),
-                  center: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        '${(piggy.progress * 100).toStringAsFixed(0)}%',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
-                      Text(
-                        piggy.goal.toString(),
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                  backgroundColor: Colors.grey,
-                ),
+                // /// Goal
+                // CircularPercentIndicator(
+                //   radius: 50,
+                //   lineWidth: 10,
+                //   percent: piggy.progress,
+                //   linearGradient: LinearGradient(
+                //     colors: <Color>[
+                //       Colors.purple.shade50,
+                //       Colors.purple,
+                //     ],
+                //   ),
+                //   center: Column(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: <Widget>[
+                //       Text(
+                //         '${(piggy.progress * 100).toStringAsFixed(0)}%',
+                //         style: const TextStyle(
+                //           fontWeight: FontWeight.bold,
+                //           fontSize: 24,
+                //         ),
+                //       ),
+                //       Text(
+                //         piggy.goal.toString(),
+                //         style: const TextStyle(
+                //           fontSize: 12,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                //   backgroundColor: Colors.grey,
+                // ),
               ],
             ),
 

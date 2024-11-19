@@ -24,7 +24,7 @@ class Family {
     name = map['name'] ?? '';
     description = map['description'] ?? '';
     code = map['code'] ?? '';
-    if (map['users'] != null) {
+    if (map['users'] != null ) {
       for (final Map<String, dynamic> user in map['users']) {
         users.add(User.fromJson(user));
       }
