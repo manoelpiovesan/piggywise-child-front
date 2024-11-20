@@ -13,8 +13,7 @@ class Config {
 
   static Config get instance => _instance;
 
-  String backUrl =
-      kDebugMode ? 'http://localhost:8080' : 'http://147.93.129.20:8080';
+  String backUrl = 'https://piggywise.com.br/api';
 
   String appName = 'PiggyWise';
 
