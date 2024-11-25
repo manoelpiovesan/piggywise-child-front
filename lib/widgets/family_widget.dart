@@ -42,6 +42,7 @@ class _FamilyWidgetState extends State<FamilyWidget> {
             margin: const EdgeInsets.all(12),
             children: <Widget>[
               CupertinoListTile(
+                padding: const EdgeInsets.all(16),
                 leading: const Icon(CupertinoIcons.group_solid),
                 onTap: () async {
                   await _joinOrCreateFamily(context);
@@ -65,12 +66,15 @@ class _FamilyWidgetState extends State<FamilyWidget> {
                     children: <Widget>[
                       CupertinoListTile(
                         padding: const EdgeInsets.all(16),
-                        onTap: () => Utils.nav(
-                          context,
-                          FamilyDetails(
-                            family: snapshot.data!,
-                          ),
-                        ),
+                        onTap: () async {
+                          await Utils.nav(
+                            context,
+                            FamilyDetails(
+                              family: snapshot.data!,
+                            ),
+                          );
+                          setState(() {});
+                        },
                         leading: const Icon(CupertinoIcons.group_solid),
                         trailing: const CupertinoListTileChevron(),
                         additionalInfo:

@@ -42,9 +42,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                 if (Session().user!.isParent)
                   CupertinoButton(
                     padding: EdgeInsets.zero,
-                    child: const Text(
-                      'Adicionar Tarefa',
-                    ),
+                    child: const Icon(CupertinoIcons.add),
                     onPressed: () async {
                       await Utils.nav(
                         context,
@@ -100,7 +98,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                   ),
                   leading: task.status.icon,
                   subtitle: Text('Até ${Utils.formatDate(task.dueDate)}'),
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(16),
                   trailing: const CupertinoListTileChevron(),
                   additionalInfo: Text('${task.points} pontos'),
                 ),

@@ -76,7 +76,7 @@ class _FamilyCreateFormState extends State<FamilyCreateForm> {
               child: const Text('Criar Família'),
               onPressed: () {
                 try {
-                  FamilyConsumer().createFamily(family);
+                  FamilyConsumer().create(family);
                   Navigator.pop(context);
                 } on Exception catch (e) {
                   Utils().alert(context, e.toString());

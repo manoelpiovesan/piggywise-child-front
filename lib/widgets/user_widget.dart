@@ -80,7 +80,9 @@ class UserWidget extends StatelessWidget {
           /// Logout
           CupertinoActionSheetAction(
             isDestructiveAction: true,
-            onPressed: () => Utils.navReplace(context, const LoginView()),
+            onPressed: () {
+              Session.logout(context);
+            },
             child: const Text('Logout'),
           ),
         ],

@@ -30,7 +30,11 @@ class PiggyListWidget extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         } else if (snapshot.data!.isEmpty) {
-          return _noData(context);
+          return CupertinoListSection.insetGrouped(
+            children: <Widget>[
+              _noData(context),
+            ],
+          );
         } else {
           final List<Widget> piggiesList = snapshot.data!
               .map(
@@ -60,11 +64,14 @@ class PiggyListWidget extends StatelessWidget {
   ///
   ///
   Widget _noData(final BuildContext context) => CupertinoListTile(
-        onTap: () => Utils.nav(context, const PiggySyncForm()),
-        leading: const Icon(CupertinoIcons.add),
-        title: const Text('Sincronize seu PiggyWise'),
-        trailing: const CupertinoListTileChevron(),
-      );
+    onTap: () => Utils.nav(context, const PiggySyncForm()),
+    padding: const EdgeInsets.all(16),
+    leading: const Icon(
+      CupertinoIcons.link,
+    ),
+    title: const Text('Sincronize seu PiggyWise'),
+    trailing: const CupertinoListTileChevron(),
+  );
 
   ///
   ///

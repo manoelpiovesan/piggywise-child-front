@@ -97,11 +97,27 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
                       onPressed: () => _setAsDoneByChild(context),
                     ),
 
+                  /// Set as Done (By Parent)
                   if (Session().user!.isParent &&
                       widget.task.status == TaskStatus.waiting_approval)
                     CupertinoButton.filled(
                       child: const Text('Aprovar Tarefa'),
                       onPressed: () => _setAsDoneByParent(context),
+                    ),
+
+                  Utils.spacer,
+
+                  /// Delete
+                  if (Session().user!.isParent)
+                    CupertinoButton(
+                      child: const Text('Excluir'),
+                      onPressed: () async {
+                        final bool success =
+                            await TaskConsumer().delete(widget.task.id);
+                        if (success && context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      },
                     ),
                 ],
               ),

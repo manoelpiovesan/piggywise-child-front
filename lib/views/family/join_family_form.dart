@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/family.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
@@ -86,7 +85,7 @@ class _JoinFamilyFormState extends State<JoinFamilyForm> {
 
                         await _joinFamily(context, capture.raw);
                       },
-                      size: 250,
+                      size: MediaQuery.of(context).size.width * 0.8,
                     ),
                     Utils.spacer,
                     CupertinoButton.filled(
@@ -110,7 +109,7 @@ class _JoinFamilyFormState extends State<JoinFamilyForm> {
     final String code,
   ) async {
     final Family? family =
-        await FamilyConsumer().joinFamily(_familyCodeController.text);
+        await FamilyConsumer().join(_familyCodeController.text);
 
     if (kDebugMode) {
       print('Codigo encontrado: $code');

@@ -95,7 +95,7 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
                           _read = true;
                         });
                       },
-                      size: 250,
+                      size: MediaQuery.of(context).size.width * 0.8,
                     ),
                     Utils.spacer,
                     CupertinoButton.filled(

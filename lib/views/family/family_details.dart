@@ -37,7 +37,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
       navigationBar: Utils().navBar(title: 'Detalhes da Família'),
       child: SafeArea(
         child: FutureBuilder<List<User>>(
-          future: FamilyConsumer().getFamilyUsers,
+          future: FamilyConsumer().getUsers,
           builder: (
             final BuildContext context,
             final AsyncSnapshot<List<User>> snapshot,
@@ -105,11 +105,17 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                         header: const Text('Membros da família'),
                         children: usersList,
                       ),
-
                       Utils.spacer,
 
-                      /// Sync Piggy
-                      _syncPiggy(context),
+                      CupertinoListSection.insetGrouped(
+                        children: <Widget>[
+                          /// Sync Piggy
+                          _syncPiggy(context),
+
+                          /// Leave Button
+                          _leaveButton(context),
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -124,15 +130,31 @@ class _FamilyDetailsState extends State<FamilyDetails> {
   ///
   ///
   ///
-  Widget _syncPiggy(final BuildContext context) =>
-      CupertinoListSection.insetGrouped(
-        children: <Widget>[
-          CupertinoListTile(
-            onTap: () => Utils.nav(context, const PiggySyncForm()),
-            leading: const Icon(CupertinoIcons.add),
-            title: const Text('Sincronize seu PiggyWise'),
-            trailing: const CupertinoListTileChevron(),
-          ),
-        ],
+  CupertinoListTile _syncPiggy(final BuildContext context) => CupertinoListTile(
+        onTap: () => Utils.nav(context, const PiggySyncForm()),
+        padding: const EdgeInsets.all(16),
+        leading: const Icon(
+          CupertinoIcons.link,
+        ),
+        title: const Text('Sincronize seu PiggyWise'),
+        trailing: const CupertinoListTileChevron(),
+      );
+
+  ///
+  ///
+  ///
+  CupertinoListTile _leaveButton(final BuildContext context) =>
+      CupertinoListTile(
+        onTap: () async {
+          final bool success = await FamilyConsumer().leave;
+          if (success && context.mounted) {
+            Navigator.of(context).pop();
+          }
+        },
+        leading: const Icon(
+          Icons.logout,
+          color: CupertinoColors.systemRed,
+        ),
+        title: const Text('Deixar Família'),
       );
 }

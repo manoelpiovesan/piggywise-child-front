@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/enums/reward_status.dart';
@@ -43,8 +44,8 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                 if (Session().user!.isParent)
                   CupertinoButton(
                     padding: EdgeInsets.zero,
-                    child: const Text(
-                      'Adicionar Recompensa',
+                    child: const Icon(
+                      CupertinoIcons.add,
                     ),
                     onPressed: () async {
                       await Utils.nav(
@@ -93,7 +94,7 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                       color: CupertinoColors.systemGrey,
                     ),
                     subtitle: Text('Resgatado por ${reward.claimedBy!.name}'),
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(16),
                     additionalInfo: Text(
                       '${reward.points} pontos',
                     ),
@@ -123,10 +124,23 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                         ? CupertinoColors.systemGrey
                         : null,
                   ),
-                  subtitle: Text(reward.description ?? ''),
-                  padding: const EdgeInsets.all(8),
+                  subtitle: piggy.balance / reward.points >= 1
+                      ? const Text('Clique para Resgatar')
+                      : LinearProgressIndicator(
+                          borderRadius: BorderRadius.circular(8),
+                          minHeight: 16,
+                          value: piggy.balance / reward.points,
+                        ),
+                  padding: const EdgeInsets.all(16),
                   trailing: const CupertinoListTileChevron(),
-                  additionalInfo: Text('${reward.points} pontos'),
+                  additionalInfo: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Utils.spacer,
+                      Utils.spacer,
+                      Text('${reward.points} pontos'),
+                    ],
+                  ),
                 );
               },
             ).toList();

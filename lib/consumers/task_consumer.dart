@@ -72,7 +72,7 @@ class TaskConsumer {
   ///
   Future<Task?> setAsCompleteByParent(final int taskId) async {
     final AgattpResponseJson<Map<String, dynamic>> response =
-    await Agattp.authBasic(
+        await Agattp.authBasic(
       username: Session().user!.username,
       password: Session().user!.password,
     ).getJson(
@@ -95,5 +95,29 @@ class TaskConsumer {
     }
 
     return Task.fromJson(response.json);
+  }
+
+  ///
+  ///
+  ///
+  Future<bool> delete(final int taskId) async {
+    final AgattpResponse response = await Agattp.authBasic(
+      username: Session().user!.username,
+      password: Session().user!.password,
+    ).delete(
+      Uri.parse(
+        <String>[
+          Config().backUrl,
+          'tasks',
+          taskId.toString(),
+        ].join('/'),
+      ),
+    );
+
+    if (response.statusCode > 299 || response.statusCode < 200) {
+      return false;
+    }
+
+    return true;
   }
 }

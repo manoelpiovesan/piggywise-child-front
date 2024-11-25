@@ -37,7 +37,7 @@ class FamilyConsumer {
   ///
   ///
   ///
-  Future<Family?> joinFamily(final String code) async {
+  Future<Family?> join(final String code) async {
     final AgattpResponseJson<Map<String, dynamic>> response =
         await Agattp.authBasic(
       username: Session().user!.username,
@@ -66,7 +66,29 @@ class FamilyConsumer {
   ///
   ///
   ///
-  Future<List<User>> get getFamilyUsers async {
+  Future<bool> get leave async {
+    final AgattpResponse response = await Agattp.authBasic(
+      username: Session().user!.username,
+      password: Session().user!.password,
+    ).get(
+      Uri.parse(
+        <String>[Config().backUrl, 'family', 'leave'].join('/'),
+      ),
+    );
+
+    if (response.statusCode > 299 || response.statusCode < 200) {
+      return false;
+    }
+
+    Session().user!.family = null;
+
+    return true;
+  }
+
+  ///
+  ///
+  ///
+  Future<List<User>> get getUsers async {
     final AgattpResponseJson<List<dynamic>> response = await Agattp.authBasic(
       username: Session().user!.username,
       password: Session().user!.password,
@@ -89,7 +111,7 @@ class FamilyConsumer {
   ///
   ///
   ///
-  Future<Family?> createFamily(final Family family) async {
+  Future<Family?> create(final Family family) async {
     final AgattpResponseJson<Map<String, dynamic>> response =
         await Agattp.authBasic(
       username: Session().user!.username,
