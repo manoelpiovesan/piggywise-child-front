@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: Utils().navBar(),
+      // navigationBar: Utils().navBar(),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(

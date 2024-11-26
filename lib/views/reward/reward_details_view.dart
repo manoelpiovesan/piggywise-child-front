@@ -75,7 +75,9 @@ class _RewardDetailsViewState extends State<RewardDetailsView> {
                       Navigator.pop(context, reward);
                     }
                   } else {
-                    Utils().alert(context, 'Erro ao reivindicar recompensa');
+                    if (context.mounted) {
+                      Utils().alert(context, 'Erro ao reivindicar recompensa');
+                    }
                   }
                 },
               ),

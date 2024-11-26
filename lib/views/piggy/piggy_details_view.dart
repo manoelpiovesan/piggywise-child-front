@@ -36,7 +36,6 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
       backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: Utils().navBar(
         previousTitle: widget.previousTitle,
-        title: 'Cofrinho',
       ),
       child: FutureBuilder<Piggy?>(
         future: PiggyConsumer().getById(widget.piggyId),
@@ -65,41 +64,40 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                     RewardListWidget(piggy: piggy),
 
                     /// More info
-                    if(false)
-                      // ignore: dead_code
+                    if (false)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            /// Title
-                            const Text(
-                              'Nome',
-                              style: TextStyle(
-                                fontSize: 14,
+                        children: <Widget>[
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              /// Title
+                              const Text(
+                                'Nome',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
 
-                            /// Family Name
-                            Text(
-                              piggy.name,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                              /// Family Name
+                              Text(
+                                piggy.name,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
 
-                        /// Family Code
-                        HideableCodeWidget(
-                          code: piggy.code,
-                          bordered: false,
-                          title: 'Código de Sincronização',
-                        ),
-                      ],
-                    ),
+                          /// Family Code
+                          HideableCodeWidget(
+                            code: piggy.code,
+                            bordered: false,
+                            title: 'Código de Sincronização',
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),
@@ -142,44 +140,10 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-
                   ],
                 ),
-
-                // /// Goal
-                // CircularPercentIndicator(
-                //   radius: 50,
-                //   lineWidth: 10,
-                //   percent: piggy.progress,
-                //   linearGradient: LinearGradient(
-                //     colors: <Color>[
-                //       Colors.purple.shade50,
-                //       Colors.purple,
-                //     ],
-                //   ),
-                //   center: Column(
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: <Widget>[
-                //       Text(
-                //         '${(piggy.progress * 100).toStringAsFixed(0)}%',
-                //         style: const TextStyle(
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 24,
-                //         ),
-                //       ),
-                //       Text(
-                //         piggy.goal.toString(),
-                //         style: const TextStyle(
-                //           fontSize: 12,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                //   backgroundColor: Colors.grey,
-                // ),
               ],
             ),
-
             Utils.spacer,
           ],
         ),

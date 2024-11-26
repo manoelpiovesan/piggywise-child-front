@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 
 ///
@@ -13,7 +12,8 @@ class Config {
 
   static Config get instance => _instance;
 
-  String backUrl = 'https://piggywise.com.br/api';
+  String backUrl =
+      kDebugMode ? 'http://localhost:8080' : 'https://piggywise.com.br/api';
 
   String appName = 'PiggyWise';
 

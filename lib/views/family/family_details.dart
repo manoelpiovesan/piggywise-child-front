@@ -102,7 +102,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
 
                       /// Users
                       CupertinoListSection.insetGrouped(
-                        header: const Text('Membros da família'),
+                        header: const Text('Membros'),
                         children: usersList,
                       ),
                       Utils.spacer,
@@ -115,7 +115,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                           /// Leave Button
                           _leaveButton(context),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
