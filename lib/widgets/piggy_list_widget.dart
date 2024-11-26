@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
@@ -64,14 +66,14 @@ class PiggyListWidget extends StatelessWidget {
   ///
   ///
   Widget _noData(final BuildContext context) => CupertinoListTile(
-    onTap: () => Utils.nav(context, const PiggySyncForm()),
-    padding: const EdgeInsets.all(16),
-    leading: const Icon(
-      CupertinoIcons.link,
-    ),
-    title: const Text('Sincronize seu PiggyWise'),
-    trailing: const CupertinoListTileChevron(),
-  );
+        onTap: () => Utils.nav(context, const PiggySyncForm()),
+        padding: const EdgeInsets.all(16),
+        leading: const Icon(
+          CupertinoIcons.link,
+        ),
+        title: const Text('Sincronize seu PiggyWise'),
+        trailing: const CupertinoListTileChevron(),
+      );
 
   ///
   ///
@@ -96,33 +98,14 @@ class PiggyListWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              /// Piggy Circle
-              // CircularPercentIndicator(
-              //   radius: length > 1 ? 50 : 150,
-              //   lineWidth: length > 1 ? 10 : 16,
-              //   percent: piggy.progress,
-              //   linearGradient: LinearGradient(
-              //     colors: <Color>[
-              //       Colors.purple.shade100,
-              //       Colors.purple,
-              //     ],
-              //   ),
-              //   center: Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: <Widget>[
-              //       /// Image
-              //       SvgPicture.asset(
-              //         'assets/images/piggy.svg',
-              //         height: length > 1 ? 60 : 90,
-              //         colorFilter: const ColorFilter.mode(
-              //           Colors.grey,
-              //           BlendMode.srcIn,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              //   backgroundColor: Colors.grey,
-              // ),
+              SvgPicture.asset(
+                'assets/images/piggy.svg',
+                height: length > 1 ? 60 : 90,
+                colorFilter: const ColorFilter.mode(
+                  Colors.grey,
+                  BlendMode.srcIn,
+                ),
+              ),
               Utils.spacer,
 
               /// Header
