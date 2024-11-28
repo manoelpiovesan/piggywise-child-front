@@ -2,6 +2,7 @@ import 'package:agattp/agattp.dart';
 import 'package:flutter/foundation.dart';
 import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/models/task.dart';
+import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/config.dart';
 
 ///
@@ -11,20 +12,29 @@ class TaskConsumer {
   ///
   ///
   ///
-  Future<Task?> create(final Task task, final int piggyId) async {
+  Future<Task?> create(
+    final Task task,
+    final int piggyId,
+    final User? targetUser,
+  ) async {
     final AgattpResponseJson<Map<String, dynamic>> response =
         await Agattp.authBasic(
       username: Session().user!.username,
       password: Session().user!.password,
     ).postJson(
       Uri.parse(
-        '${<String>[
-          Config().backUrl,
-          'tasks',
-        ].join('/')}?piggyId=$piggyId',
+        <String>[
+          <String>[
+            Config().backUrl,
+            'tasks',
+          ].join('/'),
+          '?piggyId=$piggyId',
+          if (targetUser != null) '&targetUserId=${targetUser.id}',
+        ].join(),
       ),
       body: task.toMap(),
     );
+
 
     if (kDebugMode) {
       print('TaskConsumer.create: ${response.json}');

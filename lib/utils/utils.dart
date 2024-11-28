@@ -152,7 +152,10 @@ class Utils {
     if (date == null) {
       return '';
     }
-    return DateFormat('dd/MM HH:mm').format(date);
+    if (date.day == DateTime.now().day) {
+      return 'hoje às ${DateFormat('HH:mm').format(date)}';
+    }
+    return DateFormat("dd/MM 'às' HH:mm").format(date);
   }
 
   ///

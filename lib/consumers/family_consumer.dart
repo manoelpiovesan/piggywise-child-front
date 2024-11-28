@@ -29,6 +29,7 @@ class FamilyConsumer {
       return null;
     }
 
+
     Session().user!.family = Family.fromJson(response.json);
 
     return Family.fromJson(response.json);
@@ -104,6 +105,7 @@ class FamilyConsumer {
     for (final Map<String, dynamic> user in response.json) {
       users.add(User.fromJson(user));
     }
+
 
     return users;
   }

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/models/user.dart';
-import 'package:piggywise_child_front/utils/config.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/settings_view.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -53,46 +52,6 @@ class UserWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  ///
-  ///
-  ///
-  Future<void> _showUserDetails(final BuildContext context) async {
-    return showCupertinoModalPopup<void>(
-      context: context,
-      builder: (final BuildContext context) => CupertinoActionSheet(
-        actions: <Widget>[
-          /// Modo Escuro
-          CupertinoActionSheetAction(
-            onPressed: () {
-              Utils.toggleTheme;
-              Navigator.pop(context);
-            },
-            child: Text(
-              Config.instance.brightness == Brightness.dark
-                  ? 'Modo Claro'
-                  : 'Modo Escuro',
-            ),
-          ),
-
-          /// Logout
-          CupertinoActionSheetAction(
-            isDestructiveAction: true,
-            onPressed: () {
-              Session.logout(context);
-            },
-            child: const Text('Logout'),
-          ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancelar'),
-        ),
-      ),
     );
   }
 }

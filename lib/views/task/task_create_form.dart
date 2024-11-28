@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:piggywise_child_front/consumers/task_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/models/task.dart';
+import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/views/user_list_view.dart';
 import 'package:piggywise_child_front/widgets/form_prefix.dart';
 
 ///
@@ -22,6 +25,9 @@ class TaskCreateForm extends StatefulWidget {
 ///
 class _TaskCreateFormState extends State<TaskCreateForm> {
   final Task task = Task();
+  User? targetUser;
+  bool forAll = true;
+  bool showDueDate = false;
 
   ///
   ///
@@ -82,21 +88,82 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
                     ),
                   ),
 
-                  /// Task due date
+                  /// Due date switch
                   CupertinoFormRow(
                     prefix: const FormPrefix(
-                      icon: CupertinoIcons.calendar,
-                      text: 'Data de Vencimento',
+                      icon: Icons.calendar_month,
+                      text: 'Limite de Tempo',
                     ),
                     child: CupertinoListTile(
-                      onTap: () async => _showModal(context),
-                      title: Text(
-                        Utils.formatDate(task.dueDate).isEmpty
-                            ? 'Selecione a data'
-                            : Utils.formatDate(task.dueDate),
+                      trailing: CupertinoSwitch(
+                        value: showDueDate,
+                        onChanged: (final bool value) {
+                          if (value) {
+                            task.dueDate = null;
+                          }
+                          setState(() {
+                            showDueDate = value;
+                          });
+                        },
                       ),
+                      title: const Text(''),
                     ),
                   ),
+
+                  /// Task due date
+                  if (showDueDate)
+                    CupertinoFormRow(
+                      prefix: const FormPrefix(
+                        icon: CupertinoIcons.calendar,
+                        text: 'Data de Vencimento',
+                      ),
+                      child: CupertinoListTile(
+                        onTap: () async => _showModal(context),
+                        title: Text(
+                          Utils.formatDate(task.dueDate).isEmpty
+                              ? 'Selecione a data'
+                              : Utils.formatDate(task.dueDate),
+                        ),
+                      ),
+                    ),
+
+                  /// For all switch
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: Icons.group,
+                      text: 'Para todos',
+                    ),
+                    child: CupertinoListTile(
+                      trailing: CupertinoSwitch(
+                        value: forAll,
+                        onChanged: (final bool value) {
+                          if (value) {
+                            targetUser = null;
+                          }
+                          setState(() {
+                            forAll = value;
+                          });
+                        },
+                      ),
+                      title: const Text(''),
+                    ),
+                  ),
+
+                  /// Target user
+                  if (!forAll)
+                    CupertinoFormRow(
+                      prefix: const FormPrefix(
+                        icon: Icons.person_add,
+                        text: 'Para',
+                      ),
+                      child: CupertinoListTile(
+                        onTap: () => selectTargetUser,
+                        trailing: const CupertinoListTileChevron(),
+                        title: targetUser != null
+                            ? Text(targetUser!.name)
+                            : const Text('Selecione o filho(a)'),
+                      ),
+                    ),
                 ],
               ),
               Utils.spacer,
@@ -105,9 +172,18 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
               CupertinoButton.filled(
                 child: const Text('Criar'),
                 onPressed: () async {
+                  if (!forAll && targetUser == null) {
+                    Utils().alert(
+                      context,
+                      'Selecione o filho(a) para quem a tarefa será criada',
+                    );
+                    return;
+                  }
+
                   final Task? created = await _create(
                     task,
                     widget.piggy.id,
+                    targetUser,
                     context,
                   );
                   if (created != null && context.mounted) {
@@ -149,13 +225,27 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
   ///
   ///
   ///
+  Future<void> get selectTargetUser async {
+    final User? user = await Navigator.of(context).push(
+      CupertinoPageRoute<User>(
+        builder: (final BuildContext context) => const UserListView(),
+      ),
+    );
+    targetUser = user;
+    setState(() {});
+  }
+
+  ///
+  ///
+  ///
   Future<Task?> _create(
     final Task task,
     final int piggyId,
+    final User? targetUser,
     final BuildContext context,
   ) async {
     try {
-      return await TaskConsumer().create(task, piggyId);
+      return await TaskConsumer().create(task, piggyId, targetUser);
     } on Exception {
       Utils().alert(context, 'Falha ao criar tarefa');
     }

@@ -11,7 +11,7 @@ class Task {
   int points = 0;
   DateTime? dueDate;
   TaskStatus status = TaskStatus.pending;
-  List<User> users = <User>[];
+  User? targetUser;
 
   ///
   ///
@@ -27,11 +27,8 @@ class Task {
     description = map['description'];
     points = map['points'];
     status = TaskStatus.fromString(map['status']);
-    if (map['users'] != null) {
-      for (final Map<String, dynamic> member in map['users']) {
-        users.add(User.fromJson(member));
-      }
-    }
+    targetUser =
+        map['targetUser'] != null ? User.fromJson(map['targetUser']) : null;
     dueDate = map['dueDate'] != null ? DateTime.parse(map['dueDate']) : null;
   }
 
@@ -44,7 +41,7 @@ class Task {
       'name': name,
       'description': description,
       'points': points,
-      'users': users.map((final User member) => member.toMap()).toList(),
+      'targetUser': targetUser?.toMap(),
       'status': status.name,
       'dueDate': dueDate?.toIso8601String(),
     };

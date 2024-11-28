@@ -44,9 +44,7 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                 if (Session().user!.isParent)
                   CupertinoButton(
                     padding: EdgeInsets.zero,
-                    child: const Icon(
-                      CupertinoIcons.add,
-                    ),
+                    child: const Icon(CupertinoIcons.add),
                     onPressed: () async {
                       await Utils.nav(
                         context,
@@ -132,7 +130,9 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                           value: piggy.balance / reward.points,
                         ),
                   padding: const EdgeInsets.all(16),
-                  trailing: const CupertinoListTileChevron(),
+                  trailing: reward.points > piggy.balance
+                      ? null
+                      : const CupertinoListTileChevron(),
                   additionalInfo: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[

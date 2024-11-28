@@ -7,17 +7,23 @@ import 'package:piggywise_child_front/models/task.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/task/task_create_form.dart';
 import 'package:piggywise_child_front/views/task/task_details_view.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 ///
 ///
 ///
 class TaskListWidget extends StatefulWidget {
   final int piggyId;
+  final bool showOnlyDoneTasks;
 
   ///
   ///
   ///
-  const TaskListWidget({required this.piggyId, super.key});
+  const TaskListWidget({
+    required this.piggyId,
+    super.key,
+    this.showOnlyDoneTasks = false,
+  });
 
   @override
   State<TaskListWidget> createState() => _TaskListWidgetState();
@@ -39,7 +45,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 const Text('Tarefas'),
-                if (Session().user!.isParent)
+                if (Session().user!.isParent && !widget.showOnlyDoneTasks)
                   CupertinoButton(
                     padding: EdgeInsets.zero,
                     child: const Icon(CupertinoIcons.add),
@@ -69,49 +75,133 @@ class _TaskListWidgetState extends State<TaskListWidget> {
   ///
   ///
   ///
-  List<CupertinoListTile> _taskList(
+  List<Widget> _taskList(
     final BuildContext context,
     final Piggy piggy,
   ) =>
       piggy.tasks.isNotEmpty
-          ? piggy.tasks
-              .map(
-                (final Task task) => CupertinoListTile(
-                  onTap: () async {
-                    await Utils.nav(
-                      context,
-                      TaskDetailsView(
-                        task: task,
-                        previousTitle: 'Piggy',
+          ? piggy.tasks.where(
+              (final Task task) {
+                if (widget.showOnlyDoneTasks) {
+                  return task.status == TaskStatus.done;
+                }
+                return task.status != TaskStatus.done;
+              },
+            ).map(
+              (final Task task) {
+                bool forMe = true;
+                if (task.targetUser != null &&
+                    task.targetUser!.id != Session().user!.id) {
+                  forMe = false;
+                }
+                if (Session().user!.isParent) {
+                  forMe = true;
+                }
+
+                return CupertinoListTile(
+                  onTap: forMe
+                      ? () async {
+                          await Utils.nav(
+                            context,
+                            TaskDetailsView(
+                              task: task,
+                              previousTitle: 'Piggy',
+                            ),
+                          );
+
+                          setState(() {});
+                        }
+                      : null,
+                  title: Row(
+                    children: <Widget>[
+                      /// Title
+                      Text(
+                        task.name,
+                        style: task.status == TaskStatus.done
+                            ? const TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                              )
+                            : null,
                       ),
-                    );
 
-                    setState(() {});
-                  },
-                  title: Text(
-                    task.name,
-                    style: task.status == TaskStatus.done
-                        ? const TextStyle(
-                            decoration: TextDecoration.lineThrough,
-                          )
-                        : null,
+                      Utils.spacer,
+                      Utils.spacer,
+                    ],
                   ),
+                  //Text('${task.points} pontos'),
                   leading: task.status.icon,
-                  subtitle: Text('Até ${Utils.formatDate(task.dueDate)}'),
+                  subtitle:
+                      task.dueDate != null && task.status != TaskStatus.done
+                          ? Text('Expira ${Utils.formatDate(task.dueDate)}')
+                          : null,
                   padding: const EdgeInsets.all(16),
-                  trailing: const CupertinoListTileChevron(),
-                  additionalInfo: Text('${task.points} pontos'),
-                ),
-              )
-              .toList()
-          : _noDataAvailable(context);
+                  trailing: forMe ? const CupertinoListTileChevron() : null,
+                  additionalInfo: Row(
+                    children: <Widget>[
+                      /// For person
+                      if (task.targetUser != null)
+                        Row(
+                          children: <Widget>[
+                            RandomAvatar(
+                              task.targetUser!.username,
+                              width: 20,
+                              height: 20,
+                            ),
+                            Utils.spacer,
+                            Text(
+                              ' Para ${task.targetUser!.name}',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                          ],
+                        )
+                      else
+                        Row(
+                          children: <Widget>[
+                            const Icon(
+                              CupertinoIcons.group,
+                              color: CupertinoColors.systemGrey,
+                            ),
+                            Utils.spacer,
+                            const Text(
+                              ' Para todos',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: CupertinoColors.systemGrey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      Utils.spacer,
+                    ],
+                  ),
+                );
+              },
+            ).toList()
+          : _noDataAvailable(context, piggy);
 
   ///
   ///
   ///
-  List<CupertinoListTile> _noDataAvailable(final BuildContext context) {
+  List<CupertinoListTile> _noDataAvailable(
+    final BuildContext context,
+    final Piggy piggy,
+  ) {
     return <CupertinoListTile>[
       CupertinoListTile(
+        onTap: () async {
+          await Utils.nav(
+            context,
+            TaskCreateForm(
+              piggy: piggy,
+            ),
+          );
+          setState(() {});
+        },
+        trailing: const CupertinoListTileChevron(),
+        padding: const EdgeInsets.all(16),
         leading: const Icon(
           CupertinoIcons.exclamationmark_triangle,
           color: CupertinoColors.systemGrey,

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
-import 'package:piggywise_child_front/widgets/hideable_code_widget.dart';
-import 'package:piggywise_child_front/widgets/rewards_list_widget.dart';
+import 'package:piggywise_child_front/views/reward/reward_list_view.dart';
+import 'package:piggywise_child_front/views/task/done_tasks_view.dart';
 import 'package:piggywise_child_front/widgets/task_list_widget.dart';
 
 ///
@@ -57,47 +57,44 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                     /// Details
                     _details(piggy),
 
+                    /// Rewards
+                    CupertinoListSection.insetGrouped(
+                      children: <Widget>[
+                        CupertinoListTile(
+                          padding: const EdgeInsets.all(16),
+                          trailing: const CupertinoListTileChevron(),
+                          title: const Text('Ver Recompensas'),
+                          leading: const Icon(CupertinoIcons.gift),
+                          onTap: () async {
+                            await Utils.nav(
+                              context,
+                              RewardListView(piggy: piggy),
+                            );
+
+                            setState(() {});
+                          },
+                        ),
+                      ],
+                    ),
+
                     /// Tasks
                     TaskListWidget(piggyId: piggy.id),
 
-                    /// Rewards
-                    RewardListWidget(piggy: piggy),
-
-                    /// More info
-                    if (false)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              /// Title
-                              const Text(
-                                'Nome',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                ),
-                              ),
-
-                              /// Family Name
-                              Text(
-                                piggy.name,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          /// Family Code
-                          HideableCodeWidget(
-                            code: piggy.code,
-                            bordered: false,
-                            title: 'Código de Sincronização',
-                          ),
-                        ],
-                      ),
+                    /// Done Tasks
+                    CupertinoListSection.insetGrouped(
+                      children: <Widget>[
+                        CupertinoListTile(
+                          trailing: const CupertinoListTileChevron(),
+                          padding: const EdgeInsets.all(16),
+                          leading:
+                              const Icon(CupertinoIcons.check_mark_circled),
+                          title: const Text('Tarefas Concluídas'),
+                          onTap: () {
+                            Utils.nav(context, DoneTasksView(piggy: piggy));
+                          },
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

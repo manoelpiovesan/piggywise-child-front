@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:piggywise_child_front/models/session.dart';
-import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/widgets/family_widget.dart';
 import 'package:piggywise_child_front/widgets/user_widget.dart';
 
@@ -32,10 +31,9 @@ class _HomeViewState extends State<HomeView> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-          
               /// User
               UserWidget(),
-          
+
               /// Family
               const FamilyWidget(),
             ],
