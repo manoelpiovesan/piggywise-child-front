@@ -123,19 +123,33 @@ class _PiggyDetailsViewState extends State<PiggyDetailsView> {
                   children: <Widget>[
                     /// Title
                     const Text(
-                      'Saldo Atual',
+                      'Saldo',
                       style: TextStyle(
                         fontSize: 18,
+                        color: CupertinoColors.systemGrey,
                       ),
                     ),
 
                     /// Balance
-                    Text(
-                      '${piggy.balance}',
-                      style: const TextStyle(
-                        fontSize: 34,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: <Widget>[
+                        /// Icon
+                        const Icon(
+                          CupertinoIcons.star_fill,
+                          size: 24,
+                        ),
+
+                        const SizedBox(width: 6),
+
+                        /// Value
+                        Text(
+                          '${piggy.balance}',
+                          style: const TextStyle(
+                            fontSize: 44,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

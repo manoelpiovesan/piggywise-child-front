@@ -91,7 +91,6 @@ class PiggyListWidget extends StatelessWidget {
         child: Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: CupertinoColors.systemFill,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -101,8 +100,8 @@ class PiggyListWidget extends StatelessWidget {
               SvgPicture.asset(
                 'assets/images/piggy.svg',
                 height: length > 1 ? 60 : 90,
-                colorFilter: const ColorFilter.mode(
-                  Colors.grey,
+                colorFilter: ColorFilter.mode(
+                  CupertinoTheme.of(context).primaryColor,
                   BlendMode.srcIn,
                 ),
               ),
@@ -112,19 +111,30 @@ class PiggyListWidget extends StatelessWidget {
               Text(
                 piggy.name,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
 
-              /// Balance
+              /// Subtitle
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  /// Percentage
+                  /// Icon
+                  const Icon(
+                    CupertinoIcons.star_fill,
+                    color: CupertinoColors.systemGrey,
+                    size: 16,
+                  ),
+
+                  const SizedBox(width: 3),
+
+                  /// Balance
                   Text(
                     piggy.balance.toString(),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
+                      color: CupertinoColors.systemGrey,
                       fontSize: 16,
                     ),
                   ),

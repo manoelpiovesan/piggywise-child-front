@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       ) {
         return CupertinoApp(
           theme: CupertinoThemeData(
-            primaryColor: CupertinoColors.systemBlue,
+            primaryColor: CupertinoColors.systemOrange,
             brightness: brightness,
           ),
           debugShowCheckedModeBanner: false,

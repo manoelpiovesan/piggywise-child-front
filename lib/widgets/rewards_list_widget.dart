@@ -124,10 +124,28 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                   ),
                   subtitle: piggy.balance / reward.points >= 1
                       ? const Text('Clique para Resgatar')
-                      : LinearProgressIndicator(
-                          borderRadius: BorderRadius.circular(8),
-                          minHeight: 16,
-                          value: piggy.balance / reward.points,
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            /// Progress Bar
+                            LinearProgressIndicator(
+                              borderRadius: BorderRadius.circular(8),
+                              minHeight: 16,
+                              value: piggy.balance / reward.points,
+                            ),
+
+                            /// Remaining Points
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Text(
+                                'Faltam ${reward.points - piggy.balance} pontos',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                   padding: const EdgeInsets.all(16),
                   trailing: reward.points > piggy.balance

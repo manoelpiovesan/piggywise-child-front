@@ -130,10 +130,33 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                   ),
                   //Text('${task.points} pontos'),
                   leading: task.status.icon,
-                  subtitle:
-                      task.dueDate != null && task.status != TaskStatus.done
-                          ? Text('Expira ${Utils.formatDate(task.dueDate)}')
-                          : null,
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      /// Description
+                      if (task.description.isNotEmpty)
+                        Text(
+                          task.description!,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: CupertinoColors.systemGrey,
+                          ),
+                        ),
+
+                      /// Due date
+                      if (task.dueDate != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(
+                            'Expira ${Utils.formatDate(task.dueDate)}',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: CupertinoColors.systemGrey,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                   padding: const EdgeInsets.all(16),
                   trailing: forMe ? const CupertinoListTileChevron() : null,
                   additionalInfo: Row(

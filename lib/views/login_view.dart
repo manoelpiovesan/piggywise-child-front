@@ -44,98 +44,88 @@ class _LoginViewState extends State<LoginView> {
     return CupertinoPageScaffold(
       backgroundColor: CupertinoColors.systemGroupedBackground,
       child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              _spacer,
-              _spacer,
-
-              /// Title
-              Text(
-                Config().appName,
-                style: const TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            /// Title
+            Text(
+              Config().appName,
+              style: const TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
               ),
+            ),
 
-              /// Subtitle
-              Text(
-                Config().slogan,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: CupertinoColors.systemGrey,
-                ),
+            /// Subtitle
+            Text(
+              Config().slogan,
+              style: const TextStyle(
+                fontSize: 12,
+                color: CupertinoColors.systemGrey,
               ),
-              _spacer,
+            ),
+            Utils.spacer,
 
-              /// Avatar
-              if (user.username.isNotEmpty)
-                RandomAvatar(user.username, height: 100, width: 100)
-              else
-                RandomAvatar('piggywise', height: 100, width: 100),
-
-              _spacer,
-
-              /// Login Fields
-              CupertinoFormSection.insetGrouped(
-                children: <Widget>[
-                  /// Username
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.person,
-                      text: 'Usuário',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: 'Usuário',
-                      onChanged: (final String value) {
-                        setState(() {
-                          user.username = value;
-                        });
-                      },
-                    ),
+            /// Login Fields
+            CupertinoFormSection.insetGrouped(
+              children: <Widget>[
+                /// Username
+                CupertinoFormRow(
+                  prefix: const FormPrefix(
+                    icon: CupertinoIcons.person,
+                    text: 'Usuário',
                   ),
-
-                  /// Password
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.lock,
-                      text: 'Senha',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: 'Senha',
-                      obscureText: true,
-                      onChanged: (final String value) {
-                        user.password = value;
-                      },
-                    ),
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: 'Usuário',
+                    prefix: user.username.isNotEmpty
+                        ? RandomAvatar(user.username, width: 24, height: 24)
+                        : null,
+                    onChanged: (final String value) {
+                      setState(() {
+                        user.username = value;
+                      });
+                    },
                   ),
-                ],
-              ),
-              _spacer,
-
-              /// Message
-              if (message != null)
-                Text(
-                  message!,
-                  style: const TextStyle(color: CupertinoColors.systemOrange),
                 ),
-              if(message != null) _spacer,
 
-              /// Enter Button
-              CupertinoButton.filled(
-                onPressed: () => _login(context),
-                child: const Text('Entrar'),
-              ),
+                /// Password
+                CupertinoFormRow(
+                  prefix: const FormPrefix(
+                    icon: CupertinoIcons.lock,
+                    text: 'Senha',
+                  ),
+                  child: CupertinoTextFormFieldRow(
+                    placeholder: 'Senha',
+                    obscureText: true,
+                    onChanged: (final String value) {
+                      user.password = value;
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Utils.spacer,
 
-              /// Sign Up Button
-              CupertinoButton(
-                child: const Text('Cadastre-se'),
-                onPressed: () => Utils.nav(context, const SignUpView()),
+            /// Message
+            if (message != null)
+              Text(
+                message!,
+                style: const TextStyle(color: CupertinoColors.systemGrey),
               ),
-            ],
-          ),
+            if (message != null) Utils.spacer,
+
+            /// Enter Button
+            CupertinoButton.filled(
+              onPressed: () => _login(context),
+              child: const Text('Entrar'),
+            ),
+
+            /// Sign Up Button
+            CupertinoButton(
+              child: const Text('Cadastre-se'),
+              onPressed: () => Utils.nav(context, const SignUpView()),
+            ),
+          ],
         ),
       ),
     );
@@ -157,9 +147,4 @@ class _LoginViewState extends State<LoginView> {
       });
     }
   }
-
-  ///
-  ///
-  ///
-  SizedBox get _spacer => const SizedBox(height: 16);
 }

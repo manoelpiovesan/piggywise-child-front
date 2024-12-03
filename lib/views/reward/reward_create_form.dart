@@ -73,7 +73,7 @@ class _RewardCreateFormState extends State<RewardCreateForm> {
                 /// Points
                 CupertinoFormRow(
                   prefix: const FormPrefix(
-                    icon: Icons.monetization_on,
+                    icon: CupertinoIcons.star_fill,
                     text: 'Meta de Pontos',
                   ),
                   child: CupertinoTextFormFieldRow(

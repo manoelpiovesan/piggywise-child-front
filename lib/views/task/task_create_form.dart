@@ -76,7 +76,7 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
                   /// Task points
                   CupertinoFormRow(
                     prefix: const FormPrefix(
-                      icon: CupertinoIcons.money_dollar,
+                      icon: CupertinoIcons.star_fill,
                       text: 'Pontos',
                     ),
                     child: CupertinoTextFormFieldRow(

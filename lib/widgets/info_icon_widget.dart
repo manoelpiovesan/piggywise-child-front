@@ -6,7 +6,7 @@ import 'package:piggywise_child_front/utils/utils.dart';
 ///
 ///
 class InfoIconWidget extends StatelessWidget {
-  final Icon icon;
+  final Widget icon;
   final String text;
   final String title;
 
@@ -28,6 +28,7 @@ class InfoIconWidget extends StatelessWidget {
     final BuildContext context,
   ) {
     return Container(
+      margin: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(8),

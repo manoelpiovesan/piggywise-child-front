@@ -6,6 +6,7 @@ import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/models/task.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/widgets/info_icon_widget.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 ///
 ///
@@ -34,6 +35,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
   @override
   Widget build(final BuildContext context) {
     return CupertinoPageScaffold(
+      backgroundColor: CupertinoColors.systemGroupedBackground,
       navigationBar: CupertinoNavigationBar(
         previousPageTitle: widget.previousTitle,
         middle: const Text('Tarefa'),
@@ -57,26 +59,51 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
                   ),
 
                   /// Description
-                  Text(
-                    widget.task.description,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: CupertinoColors.systemGrey,
+                  if (widget.task.description.isNotEmpty)
+                    Text(
+                      widget.task.description,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: CupertinoColors.systemGrey,
+                      ),
                     ),
-                  ),
 
                   Utils.spacer,
 
-                  /// Status
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Wrap(
                     children: <Widget>[
+                      /// Points
+                      InfoIconWidget(
+                        icon: const Icon(CupertinoIcons.star_fill),
+                        text: widget.task.points.toString(),
+                        title: 'Pontos',
+                      ),
+
+                      /// Target User
+                      if (widget.task.targetUser != null)
+                        InfoIconWidget(
+                          icon: RandomAvatar(
+                            widget.task.targetUser!.name,
+                            width: 24,
+                            height: 24,
+                          ),
+                          text: widget.task.targetUser!.name,
+                          title: 'Designado para',
+                        ),
+                    ],
+                  ),
+
+                  Wrap(
+                    children: <Widget>[
+                      /// Status
                       InfoIconWidget(
                         icon: widget.task.status.icon,
                         text: widget.task.status.translation,
                         title: 'Status',
                       ),
-                      Utils.spacer,
+
+                      /// Due Date
+                      if (widget.task.dueDate != null)
                       InfoIconWidget(
                         icon: const Icon(CupertinoIcons.calendar),
                         text: Utils.formatDate(widget.task.dueDate),
@@ -85,31 +112,34 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
                     ],
                   ),
 
-                  Utils.spacer,
-
-                  /// Actions
-
                   /// Set as Done (By Child)
                   if (!Session().user!.isParent &&
                       widget.task.status == TaskStatus.pending)
-                    CupertinoButton.filled(
-                      child: const Text('Marcar como Concluída'),
-                      onPressed: () => _setAsDoneByChild(context),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CupertinoButton(
+                        color: CupertinoColors.systemGreen,
+                        child: const Text('Concluir'),
+                        onPressed: () => _setAsDoneByChild(context),
+                      ),
                     ),
 
                   /// Set as Done (By Parent)
                   if (Session().user!.isParent &&
                       widget.task.status == TaskStatus.waiting_approval)
-                    CupertinoButton.filled(
-                      child: const Text('Aprovar Tarefa'),
-                      onPressed: () => _setAsDoneByParent(context),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CupertinoButton(
+                        color: CupertinoColors.systemGreen,
+                        child: const Text('Aprovar'),
+                        onPressed: () => _setAsDoneByParent(context),
+                      ),
                     ),
-
-                  Utils.spacer,
 
                   /// Delete
                   if (Session().user!.isParent)
                     CupertinoButton(
+                      color: CupertinoColors.systemRed,
                       child: const Text('Excluir'),
                       onPressed: () async {
                         final bool success =
