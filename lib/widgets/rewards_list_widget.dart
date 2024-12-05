@@ -9,6 +9,7 @@ import 'package:piggywise_child_front/models/session.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/reward/reward_create_form.dart';
 import 'package:piggywise_child_front/views/reward/reward_details_view.dart';
+import 'package:piggywise_child_front/widgets/list_tile_no_data.dart';
 
 ///
 ///
@@ -71,13 +72,12 @@ class _RewardListWidgetState extends State<RewardListWidget> {
   ///
   ///
   ///
-  List<CupertinoListTile> _rewardList(
+  List<Widget> _rewardList(
     final BuildContext context,
     final Piggy piggy,
   ) =>
-      piggy.rewards.isEmpty
-          ? _noDataAvailable(context)
-          : piggy.rewards.map(
+      piggy.rewards.isNotEmpty
+          ? piggy.rewards.map(
               (final Reward reward) {
                 if (reward.status == RewardStatus.claimed) {
                   return CupertinoListTile(
@@ -125,7 +125,7 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                   subtitle: piggy.balance / reward.points >= 1
                       ? const Text('Clique para Resgatar')
                       : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             /// Progress Bar
                             LinearProgressIndicator(
@@ -138,7 +138,8 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                             Padding(
                               padding: const EdgeInsets.all(4),
                               child: Text(
-                                'Faltam ${reward.points - piggy.balance} pontos',
+                                'Faltam ${reward.points - piggy.balance}'
+                                ' pontos',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: CupertinoColors.systemGrey,
@@ -161,26 +162,50 @@ class _RewardListWidgetState extends State<RewardListWidget> {
                   ),
                 );
               },
-            ).toList();
+            ).toList()
+          : <Widget>[
+              /// No Data Yet
+              ListTileNoDataYet(
+                title: 'Não há recompensas ainda',
+                icon: const Icon(
+                  Icons.emoji_events,
+                  color: CupertinoColors.systemGrey,
+                ),
+                subtitle: Session().user!.isParent
+                    ? 'Clique para adicionar uma'
+                    : null,
+                onTap: Session().user!.isParent
+                    ? () async {
+                        await Utils.nav(
+                          context,
+                          RewardCreateForm(
+                            piggyCode: piggy.code,
+                          ),
+                        );
+                        setState(() {});
+                      }
+                    : null,
+              ),
+            ];
 
-  ///
-  ///
-  ///
-  List<CupertinoListTile> _noDataAvailable(final BuildContext context) {
-    return <CupertinoListTile>[
-      CupertinoListTile(
-        leading: const Icon(
-          CupertinoIcons.exclamationmark_triangle,
-          color: CupertinoColors.systemGrey,
-        ),
-        title: const Text('Parece que não há recompensas ainda.'),
-        subtitle: Text(
-          Session().user!.isParent
-              ? 'Adicione uma recompensa para seu filho'
-              : 'Peça para seus pais adicionarem uma '
-                  'recompensa.',
-        ),
-      ),
-    ];
-  }
+// ///
+// ///
+// ///
+// List<CupertinoListTile> _noDataAvailable(final BuildContext context) {
+//   return <CupertinoListTile>[
+//     CupertinoListTile(
+//       leading: const Icon(
+//         CupertinoIcons.exclamationmark_triangle,
+//         color: CupertinoColors.systemGrey,
+//       ),
+//       title: const Text('Parece que não há recompensas ainda.'),
+//       subtitle: Text(
+//         Session().user!.isParent
+//             ? 'Adicione uma recompensa para seu filho'
+//             : 'Peça para seus pais adicionarem uma '
+//                 'recompensa.',
+//       ),
+//     ),
+//   ];
+// }
 }

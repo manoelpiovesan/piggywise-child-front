@@ -28,11 +28,9 @@ class UserWidget extends StatelessWidget {
         CupertinoListTile(
           padding: const EdgeInsets.all(16),
           onTap: () async => Utils.nav(context, const SettingsView()),
-          trailing: user.isParent
-              ? const Icon(Icons.escalator_warning)
-              : const Icon(Icons.child_care),
+          trailing: _trailingIcon,
+          additionalInfo: _additionalInfo,
           leading: RandomAvatar(user.username, height: 70, width: 70),
-          additionalInfo: Text(user.isParent ? 'Responsável' : 'Criança'),
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -54,4 +52,18 @@ class UserWidget extends StatelessWidget {
       ],
     );
   }
+
+  ///
+  ///
+  ///
+  Widget get _trailingIcon => user.isParent
+      ? const Icon(Icons.escalator_warning)
+      : const Icon(Icons.child_care);
+
+  ///
+  ///
+  ///
+  Widget get _additionalInfo => Text(
+        user.isParent ? 'Responsável' : 'Criança',
+      );
 }

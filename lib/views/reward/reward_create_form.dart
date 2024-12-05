@@ -27,85 +27,83 @@ class _RewardCreateFormState extends State<RewardCreateForm> {
   ///
   ///
   @override
-  Widget build(final BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: Utils().navBar(
-        title: 'Criar Recompensa',
-      ),
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Utils.spacer,
-
-            /// Form
-            CupertinoFormSection.insetGrouped(
-              children: <Widget>[
-                /// Name
-                CupertinoFormRow(
-                  prefix: const FormPrefix(
-                    icon: Icons.redeem,
-                    text: 'Nome',
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Nome',
-                    onChanged: (final String value) {
-                      reward.name = value;
-                    },
-                  ),
-                ),
-
-                /// Description
-                CupertinoFormRow(
-                  prefix: const FormPrefix(
-                    icon: Icons.text_fields,
-                    text: 'Descrição',
-                    optional: true,
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Descrição',
-                    onChanged: (final String value) {
-                      reward.description = value;
-                    },
-                  ),
-                ),
-
-                /// Points
-                CupertinoFormRow(
-                  prefix: const FormPrefix(
-                    icon: CupertinoIcons.star_fill,
-                    text: 'Meta de Pontos',
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    keyboardType: TextInputType.number,
-                    placeholder: 'Meta de Pontos',
-                    onChanged: (final String value) {
-                      reward.points = int.parse(value);
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Utils.spacer,
-
-            /// Save Button
-            CupertinoButton.filled(
-              child: const Text('Criar Recompensa'),
-              onPressed: () {
-                try {
-                  RewardConsumer().createReward(
-                    reward,
-                    widget.piggyCode,
-                  );
-                  Navigator.pop(context);
-                } on Exception catch (e) {
-                  Utils().alert(context, e.toString());
-                }
-              },
-            ),
-          ],
+  Widget build(final BuildContext context) => CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.systemGroupedBackground,
+        navigationBar: Utils().navBar(
+          title: 'Criar Recompensa',
         ),
-      ),
-    );
-  }
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Utils.spacer,
+
+              /// Form
+              CupertinoFormSection.insetGrouped(
+                children: <Widget>[
+                  /// Name
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: Icons.redeem,
+                      text: 'Nome',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Nome',
+                      onChanged: (final String value) {
+                        reward.name = value;
+                      },
+                    ),
+                  ),
+
+                  /// Description
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: Icons.text_fields,
+                      text: 'Descrição',
+                      optional: true,
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Descrição',
+                      onChanged: (final String value) {
+                        reward.description = value;
+                      },
+                    ),
+                  ),
+
+                  /// Points
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: CupertinoIcons.star_fill,
+                      text: 'Meta de Pontos',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      keyboardType: TextInputType.number,
+                      placeholder: 'Meta de Pontos',
+                      onChanged: (final String value) {
+                        reward.points = int.parse(value);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Utils.spacer,
+
+              /// Save Button
+              CupertinoButton.filled(
+                child: const Text('Criar Recompensa'),
+                onPressed: () {
+                  try {
+                    RewardConsumer().createReward(
+                      reward,
+                      widget.piggyCode,
+                    );
+                    Navigator.pop(context);
+                  } on Exception catch (e) {
+                    Utils().alert(context, e.toString());
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      );
 }

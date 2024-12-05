@@ -28,88 +28,86 @@ class _PiggySyncFormState extends State<PiggySyncForm> {
   ///
   ///
   @override
-  Widget build(final BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: Utils().navBar(title: 'Sincronizar PiggyWise'),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: _read
-              ? Column(
-                  children: <Widget>[
-                    Utils.spacer,
-                    CupertinoFormSection.insetGrouped(
-                      children: <Widget>[
-                        /// Name
-                        CupertinoFormRow(
-                          prefix: const FormPrefix(
-                            icon: CupertinoIcons.person,
-                            text: 'Nome',
+  Widget build(final BuildContext context) => CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.systemGroupedBackground,
+        navigationBar: Utils().navBar(title: 'Sincronizar PiggyWise'),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: _read
+                ? Column(
+                    children: <Widget>[
+                      Utils.spacer,
+                      CupertinoFormSection.insetGrouped(
+                        children: <Widget>[
+                          /// Name
+                          CupertinoFormRow(
+                            prefix: const FormPrefix(
+                              icon: CupertinoIcons.person,
+                              text: 'Nome',
+                            ),
+                            child: CupertinoTextFormFieldRow(
+                              controller: _nameController,
+                              placeholder: 'Escolha um nome para o seu Piggy',
+                            ),
                           ),
-                          child: CupertinoTextFormFieldRow(
-                            controller: _nameController,
-                            placeholder: 'Escolha um nome para o seu Piggy',
-                          ),
-                        ),
 
-                        /// Description
-                        CupertinoFormRow(
-                          prefix: const FormPrefix(
-                            icon: CupertinoIcons.text_bubble,
-                            text: 'Descrição',
-                            optional: true,
+                          /// Description
+                          CupertinoFormRow(
+                            prefix: const FormPrefix(
+                              icon: CupertinoIcons.text_bubble,
+                              text: 'Descrição',
+                              optional: true,
+                            ),
+                            child: CupertinoTextFormFieldRow(
+                              controller: _descriptionController,
+                              placeholder: 'Descrição do Cofrinho',
+                            ),
                           ),
-                          child: CupertinoTextFormFieldRow(
-                            controller: _descriptionController,
-                            placeholder: 'Descrição do Cofrinho',
-                          ),
-                        ),
 
-                        /// Piggy Code
-                        CupertinoFormRow(
-                          prefix: const FormPrefix(
-                            icon: CupertinoIcons.qrcode,
-                            text: 'Código',
+                          /// Piggy Code
+                          CupertinoFormRow(
+                            prefix: const FormPrefix(
+                              icon: CupertinoIcons.qrcode,
+                              text: 'Código',
+                            ),
+                            child: CupertinoTextFormFieldRow(
+                              controller: _piggyCodeController,
+                              placeholder: 'Código do PiggyWise',
+                            ),
                           ),
-                          child: CupertinoTextFormFieldRow(
-                            controller: _piggyCodeController,
-                            placeholder: 'Código do PiggyWise',
-                          ),
-                        ),
-                      ],
-                    ),
-                    Utils.spacer,
-                    CupertinoButton.filled(
-                      onPressed: () async => _syncPiggy(context),
-                      child: const Text('Sincronizar'),
-                    ),
-                  ],
-                )
-              : Column(
-                  children: <Widget>[
-                    Utils.spacer,
-                    QRCodeReaderSquareWidget(
-                      onDetect: (final QRCodeCapture capture) async {
-                        setState(() {
-                          _piggyCodeController.text = capture.raw;
+                        ],
+                      ),
+                      Utils.spacer,
+                      CupertinoButton.filled(
+                        onPressed: () async => _syncPiggy(context),
+                        child: const Text('Sincronizar'),
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: <Widget>[
+                      Utils.spacer,
+                      QRCodeReaderSquareWidget(
+                        onDetect: (final QRCodeCapture capture) async {
+                          setState(() {
+                            _piggyCodeController.text = capture.raw;
+                            _read = true;
+                          });
+                        },
+                        size: MediaQuery.of(context).size.width * 0.8,
+                      ),
+                      Utils.spacer,
+                      CupertinoButton.filled(
+                        onPressed: () => setState(() {
                           _read = true;
-                        });
-                      },
-                      size: MediaQuery.of(context).size.width * 0.8,
-                    ),
-                    Utils.spacer,
-                    CupertinoButton.filled(
-                      onPressed: () => setState(() {
-                        _read = true;
-                      }),
-                      child: const Text('Inserir manualmente'),
-                    ),
-                  ],
-                ),
+                        }),
+                        child: const Text('Inserir manualmente'),
+                      ),
+                    ],
+                  ),
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   ///
   ///

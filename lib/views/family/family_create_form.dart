@@ -25,67 +25,62 @@ class _FamilyCreateFormState extends State<FamilyCreateForm> {
   ///
   ///
   @override
-  Widget build(final BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: Utils().navBar(
-        title: 'Criar Família',
-      ),
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Utils.spacer,
-
-            /// Form
-            CupertinoFormSection.insetGrouped(
-              children: <Widget>[
-                /// Name
-                CupertinoFormRow(
-                  prefix: const FormPrefix(
-                    icon: Icons.group,
-                    text: 'Nome',
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Nome',
-                    onChanged: (final String value) {
-                      family.name = value;
-                    },
-                  ),
-                ),
-
-                /// Description
-                CupertinoFormRow(
-                  prefix: const FormPrefix(
-                    icon: Icons.text_fields,
-                    text: 'Descrição',
-                    optional: true,
-                  ),
-                  child: CupertinoTextFormFieldRow(
-                    placeholder: 'Descrição',
-                    onChanged: (final String value) {
-                      family.description = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Utils.spacer,
-
-            /// Save Button
-            CupertinoButton.filled(
-              child: const Text('Criar Família'),
-              onPressed: () {
-                try {
-                  FamilyConsumer().create(family);
-                  Navigator.pop(context);
-                } on Exception catch (e) {
-                  Utils().alert(context, e.toString());
-                }
-              },
-            ),
-          ],
+  Widget build(final BuildContext context) => CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.systemGroupedBackground,
+        navigationBar: Utils().navBar(
+          title: 'Criar Família',
         ),
-      ),
-    );
-  }
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Utils.spacer,
+
+              /// Form
+              CupertinoFormSection.insetGrouped(
+                children: <Widget>[
+                  /// Name
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: Icons.group,
+                      text: 'Nome',
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Nome',
+                      onChanged: (final String value) => family.name = value,
+                    ),
+                  ),
+
+                  /// Description
+                  CupertinoFormRow(
+                    prefix: const FormPrefix(
+                      icon: Icons.text_fields,
+                      text: 'Descrição',
+                      optional: true,
+                    ),
+                    child: CupertinoTextFormFieldRow(
+                      placeholder: 'Descrição',
+                      onChanged: (final String value) =>
+                          family.description = value,
+                    ),
+                  ),
+                ],
+              ),
+              Utils.spacer,
+
+              /// Save Button
+              CupertinoButton.filled(
+                child: const Text('Criar Família'),
+                onPressed: () {
+                  try {
+                    FamilyConsumer().create(family);
+                    Navigator.pop(context);
+                  } on Exception catch (e) {
+                    Utils().alert(context, e.toString());
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+      );
 }

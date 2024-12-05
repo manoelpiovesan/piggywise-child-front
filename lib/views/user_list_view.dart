@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:piggywise_child_front/consumers/family_consumer.dart';
 import 'package:piggywise_child_front/models/user.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
+import 'package:piggywise_child_front/widgets/list_tile_no_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 ///
@@ -36,7 +37,20 @@ class UserListView extends StatelessWidget {
                   } else {
                     final List<User> users = snapshot.data!;
                     if (users.length == 1) {
-                      return const Text('Nenhum filho(a) encontrado');
+                      return CupertinoListSection.insetGrouped(
+                        children: const <Widget>[
+                          ListTileNoDataYet(
+                            title: 'Nenhum filho(a) encontrado',
+                            icon: Icon(
+                              CupertinoIcons.person,
+                              color: CupertinoColors.systemGrey,
+                            ),
+                            subtitle:
+                                'Eles aparecerão aqui assim que se juntarem à '
+                                'sua família',
+                          ),
+                        ],
+                      );
                     }
                     return Column(
                       children: <Widget>[

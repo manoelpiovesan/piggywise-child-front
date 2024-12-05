@@ -33,130 +33,129 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
   ///
   ///
   @override
-  Widget build(final BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: CupertinoNavigationBar(
-        previousPageTitle: widget.previousTitle,
-        middle: const Text('Tarefa'),
-      ),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Utils.spacer,
+  Widget build(final BuildContext context) => CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.systemGroupedBackground,
+        navigationBar: CupertinoNavigationBar(
+          previousPageTitle: widget.previousTitle,
+          middle: const Text('Tarefa'),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Utils.spacer,
 
-                  /// Title
-                  Text(
-                    widget.task.name,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  /// Description
-                  if (widget.task.description.isNotEmpty)
+                    /// Title
                     Text(
-                      widget.task.description,
+                      widget.task.name,
                       style: const TextStyle(
-                        fontSize: 16,
-                        color: CupertinoColors.systemGrey,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
 
-                  Utils.spacer,
-
-                  Wrap(
-                    children: <Widget>[
-                      /// Points
-                      InfoIconWidget(
-                        icon: const Icon(CupertinoIcons.star_fill),
-                        text: widget.task.points.toString(),
-                        title: 'Pontos',
-                      ),
-
-                      /// Target User
-                      if (widget.task.targetUser != null)
-                        InfoIconWidget(
-                          icon: RandomAvatar(
-                            widget.task.targetUser!.name,
-                            width: 24,
-                            height: 24,
-                          ),
-                          text: widget.task.targetUser!.name,
-                          title: 'Designado para',
+                    /// Description
+                    if (widget.task.description.isNotEmpty)
+                      Text(
+                        widget.task.description,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: CupertinoColors.systemGrey,
                         ),
-                    ],
-                  ),
-
-                  Wrap(
-                    children: <Widget>[
-                      /// Status
-                      InfoIconWidget(
-                        icon: widget.task.status.icon,
-                        text: widget.task.status.translation,
-                        title: 'Status',
                       ),
 
-                      /// Due Date
-                      if (widget.task.dueDate != null)
-                      InfoIconWidget(
-                        icon: const Icon(CupertinoIcons.calendar),
-                        text: Utils.formatDate(widget.task.dueDate),
-                        title: 'Data de Vencimento',
-                      ),
-                    ],
-                  ),
+                    Utils.spacer,
 
-                  /// Set as Done (By Child)
-                  if (!Session().user!.isParent &&
-                      widget.task.status == TaskStatus.pending)
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: CupertinoButton(
-                        color: CupertinoColors.systemGreen,
-                        child: const Text('Concluir'),
-                        onPressed: () => _setAsDoneByChild(context),
-                      ),
+                    Wrap(
+                      children: <Widget>[
+                        /// Points
+                        InfoIconWidget(
+                          icon: const Icon(CupertinoIcons.star_fill),
+                          text: widget.task.points.toString(),
+                          title: 'Pontos',
+                        ),
+
+                        /// Target User
+                        if (widget.task.targetUser != null)
+                          InfoIconWidget(
+                            icon: RandomAvatar(
+                              widget.task.targetUser!.name,
+                              width: 24,
+                              height: 24,
+                            ),
+                            text: widget.task.targetUser!.name,
+                            title: 'Designado para',
+                          )
+                        ,
+                      ],
                     ),
 
-                  /// Set as Done (By Parent)
-                  if (Session().user!.isParent &&
-                      widget.task.status == TaskStatus.waiting_approval)
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: CupertinoButton(
-                        color: CupertinoColors.systemGreen,
-                        child: const Text('Aprovar'),
-                        onPressed: () => _setAsDoneByParent(context),
-                      ),
+                    Wrap(
+                      children: <Widget>[
+                        /// Status
+                        InfoIconWidget(
+                          icon: widget.task.status.icon,
+                          text: widget.task.status.translation,
+                          title: 'Status',
+                        ),
+
+                        /// Due Date
+                        if (widget.task.dueDate != null)
+                          InfoIconWidget(
+                            icon: const Icon(CupertinoIcons.calendar),
+                            text: Utils.formatDate(widget.task.dueDate),
+                            title: 'Data de Vencimento',
+                          ),
+                      ],
                     ),
 
-                  /// Delete
-                  if (Session().user!.isParent)
-                    CupertinoButton(
-                      color: CupertinoColors.systemRed,
-                      child: const Text('Excluir'),
-                      onPressed: () async {
-                        final bool success =
-                            await TaskConsumer().delete(widget.task.id);
-                        if (success && context.mounted) {
-                          Navigator.pop(context);
-                        }
-                      },
-                    ),
-                ],
-              ),
-            ],
+                    /// Set as Done (By Child)
+                    if (!Session().user!.isParent &&
+                        widget.task.status == TaskStatus.pending)
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: CupertinoButton(
+                          color: CupertinoColors.systemGreen,
+                          child: const Text('Concluir'),
+                          onPressed: () => _setAsDoneByChild(context),
+                        ),
+                      ),
+
+                    /// Set as Done (By Parent)
+                    if (Session().user!.isParent &&
+                        widget.task.status == TaskStatus.waiting_approval)
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: CupertinoButton(
+                          color: CupertinoColors.systemGreen,
+                          child: const Text('Aprovar'),
+                          onPressed: () => _setAsDoneByParent(context),
+                        ),
+                      ),
+
+                    /// Delete
+                    if (Session().user!.isParent)
+                      CupertinoButton(
+                        color: CupertinoColors.systemRed,
+                        child: const Text('Excluir'),
+                        onPressed: () async {
+                          final bool success =
+                              await TaskConsumer().delete(widget.task.id);
+                          if (success && context.mounted) {
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   ///
   ///

@@ -33,170 +33,168 @@ class _TaskCreateFormState extends State<TaskCreateForm> {
   ///
   ///
   @override
-  Widget build(final BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: Utils().navBar(title: 'Nova Tarefa'),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Utils.spacer,
+  Widget build(final BuildContext context) => CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.systemGroupedBackground,
+        navigationBar: Utils().navBar(title: 'Nova Tarefa'),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Utils.spacer,
 
-              CupertinoFormSection.insetGrouped(
-                children: <Widget>[
-                  /// Task name
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.textformat,
-                      text: 'Nome',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: 'Nome da Tarefa',
-                      onChanged: (final String value) {
-                        task.name = value;
-                      },
-                    ),
-                  ),
-
-                  /// Task description
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.text_bubble,
-                      text: 'Descrição',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: 'Descrição',
-                      onChanged: (final String value) {
-                        task.description = value;
-                      },
-                    ),
-                  ),
-
-                  /// Task points
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: CupertinoIcons.star_fill,
-                      text: 'Pontos',
-                    ),
-                    child: CupertinoTextFormFieldRow(
-                      placeholder: 'Pontos',
-                      keyboardType: TextInputType.number,
-                      onChanged: (final String value) {
-                        task.points = int.parse(value);
-                      },
-                    ),
-                  ),
-
-                  /// Due date switch
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: Icons.calendar_month,
-                      text: 'Limite de Tempo',
-                    ),
-                    child: CupertinoListTile(
-                      trailing: CupertinoSwitch(
-                        value: showDueDate,
-                        onChanged: (final bool value) {
-                          if (value) {
-                            task.dueDate = null;
-                          }
-                          setState(() {
-                            showDueDate = value;
-                          });
-                        },
-                      ),
-                      title: const Text(''),
-                    ),
-                  ),
-
-                  /// Task due date
-                  if (showDueDate)
+                CupertinoFormSection.insetGrouped(
+                  children: <Widget>[
+                    /// Task name
                     CupertinoFormRow(
                       prefix: const FormPrefix(
-                        icon: CupertinoIcons.calendar,
-                        text: 'Data de Vencimento',
+                        icon: CupertinoIcons.textformat,
+                        text: 'Nome',
+                      ),
+                      child: CupertinoTextFormFieldRow(
+                        placeholder: 'Nome da Tarefa',
+                        onChanged: (final String value) {
+                          task.name = value;
+                        },
+                      ),
+                    ),
+
+                    /// Task description
+                    CupertinoFormRow(
+                      prefix: const FormPrefix(
+                        icon: CupertinoIcons.text_bubble,
+                        text: 'Descrição',
+                      ),
+                      child: CupertinoTextFormFieldRow(
+                        placeholder: 'Descrição',
+                        onChanged: (final String value) {
+                          task.description = value;
+                        },
+                      ),
+                    ),
+
+                    /// Task points
+                    CupertinoFormRow(
+                      prefix: const FormPrefix(
+                        icon: CupertinoIcons.star_fill,
+                        text: 'Pontos',
+                      ),
+                      child: CupertinoTextFormFieldRow(
+                        placeholder: 'Pontos',
+                        keyboardType: TextInputType.number,
+                        onChanged: (final String value) {
+                          task.points = int.parse(value);
+                        },
+                      ),
+                    ),
+
+                    /// Due date switch
+                    CupertinoFormRow(
+                      prefix: const FormPrefix(
+                        icon: Icons.calendar_month,
+                        text: 'Limite de Tempo',
                       ),
                       child: CupertinoListTile(
-                        onTap: () async => _showModal(context),
-                        title: Text(
-                          Utils.formatDate(task.dueDate).isEmpty
-                              ? 'Selecione a data'
-                              : Utils.formatDate(task.dueDate),
+                        trailing: CupertinoSwitch(
+                          value: showDueDate,
+                          onChanged: (final bool value) {
+                            if (value) {
+                              task.dueDate = null;
+                            }
+                            setState(() {
+                              showDueDate = value;
+                            });
+                          },
+                        ),
+                        title: const Text(''),
+                      ),
+                    ),
+
+                    /// Task due date
+                    if (showDueDate)
+                      CupertinoFormRow(
+                        prefix: const FormPrefix(
+                          icon: CupertinoIcons.calendar,
+                          text: 'Data de Vencimento',
+                        ),
+                        child: CupertinoListTile(
+                          onTap: () async => _showModal(context),
+                          title: Text(
+                            Utils.formatDate(task.dueDate).isEmpty
+                                ? 'Selecione a data'
+                                : Utils.formatDate(task.dueDate),
+                          ),
                         ),
                       ),
-                    ),
 
-                  /// For all switch
-                  CupertinoFormRow(
-                    prefix: const FormPrefix(
-                      icon: Icons.group,
-                      text: 'Para todos',
-                    ),
-                    child: CupertinoListTile(
-                      trailing: CupertinoSwitch(
-                        value: forAll,
-                        onChanged: (final bool value) {
-                          if (value) {
-                            targetUser = null;
-                          }
-                          setState(() {
-                            forAll = value;
-                          });
-                        },
-                      ),
-                      title: const Text(''),
-                    ),
-                  ),
-
-                  /// Target user
-                  if (!forAll)
+                    /// For all switch
                     CupertinoFormRow(
                       prefix: const FormPrefix(
-                        icon: Icons.person_add,
-                        text: 'Para',
+                        icon: Icons.group,
+                        text: 'Para todos',
                       ),
                       child: CupertinoListTile(
-                        onTap: () => selectTargetUser,
-                        trailing: const CupertinoListTileChevron(),
-                        title: targetUser != null
-                            ? Text(targetUser!.name)
-                            : const Text('Selecione o filho(a)'),
+                        trailing: CupertinoSwitch(
+                          value: forAll,
+                          onChanged: (final bool value) {
+                            if (value) {
+                              targetUser = null;
+                            }
+                            setState(() {
+                              forAll = value;
+                            });
+                          },
+                        ),
+                        title: const Text(''),
                       ),
                     ),
-                ],
-              ),
-              Utils.spacer,
 
-              /// Create button
-              CupertinoButton.filled(
-                child: const Text('Criar'),
-                onPressed: () async {
-                  if (!forAll && targetUser == null) {
-                    Utils().alert(
+                    /// Target user
+                    if (!forAll)
+                      CupertinoFormRow(
+                        prefix: const FormPrefix(
+                          icon: Icons.person_add,
+                          text: 'Para',
+                        ),
+                        child: CupertinoListTile(
+                          onTap: () => selectTargetUser,
+                          trailing: const CupertinoListTileChevron(),
+                          title: targetUser != null
+                              ? Text(targetUser!.name)
+                              : const Text('Selecione o filho(a)'),
+                        ),
+                      ),
+                  ],
+                ),
+                Utils.spacer,
+
+                /// Create button
+                CupertinoButton.filled(
+                  child: const Text('Criar'),
+                  onPressed: () async {
+                    if (!forAll && targetUser == null) {
+                      Utils().alert(
+                        context,
+                        'Selecione o filho(a) para quem a tarefa será criada',
+                      );
+                      return;
+                    }
+
+                    final Task? created = await _create(
+                      task,
+                      widget.piggy.id,
+                      targetUser,
                       context,
-                      'Selecione o filho(a) para quem a tarefa será criada',
                     );
-                    return;
-                  }
-
-                  final Task? created = await _create(
-                    task,
-                    widget.piggy.id,
-                    targetUser,
-                    context,
-                  );
-                  if (created != null && context.mounted) {
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-            ],
+                    if (created != null && context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 
   ///
   ///

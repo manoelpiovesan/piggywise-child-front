@@ -1,3 +1,5 @@
+import 'package:piggywise_child_front/enums/reward_status.dart';
+import 'package:piggywise_child_front/enums/task_status.dart';
 import 'package:piggywise_child_front/models/reward.dart';
 import 'package:piggywise_child_front/models/task.dart';
 
@@ -49,4 +51,40 @@ class Piggy {
     };
   }
 
+  ///
+  ///
+  ///
+  double get tasksDonePercentage {
+    if (tasks.isEmpty) {
+      return 0;
+    }
+    final int doneTasks =
+        tasks.where((final Task task) => task.status == TaskStatus.done).length;
+    return doneTasks / tasks.length;
+  }
+
+  ///
+  ///
+  ///
+  double get rewardsClaimedPercentage {
+    if (rewards.isEmpty) {
+      return 0;
+    }
+    final int claimedRewards = rewards
+        .where((final Reward reward) => reward.status == RewardStatus.claimed)
+        .length;
+    return claimedRewards / rewards.length;
+  }
+
+  ///
+  ///
+  ///
+  int get rewardsClaimedQty {
+    if (rewards.isEmpty) {
+      return 0;
+    }
+    return rewards
+        .where((final Reward reward) => reward.status == RewardStatus.claimed)
+        .length;
+  }
 }

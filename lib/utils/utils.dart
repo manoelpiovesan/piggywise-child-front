@@ -48,13 +48,12 @@ class Utils {
   static Future<void> navReplace(
     final BuildContext context,
     final Widget page,
-  ) async {
-    await Navigator.of(context).pushReplacement(
-      CupertinoPageRoute<void>(
-        builder: (final BuildContext context) => page,
-      ),
-    );
-  }
+  ) async =>
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute<void>(
+          builder: (final BuildContext context) => page,
+        ),
+      );
 
   ///
   ///
@@ -62,13 +61,12 @@ class Utils {
   static Future<void> nav(
     final BuildContext context,
     final Widget page,
-  ) async {
-    await Navigator.of(context).push(
-      CupertinoPageRoute<void>(
-        builder: (final BuildContext context) => page,
-      ),
-    );
-  }
+  ) async =>
+      Navigator.of(context).push(
+        CupertinoPageRoute<void>(
+          builder: (final BuildContext context) => page,
+        ),
+      );
 
   ///
   ///
@@ -78,20 +76,19 @@ class Utils {
     final Widget page, {
     final double? height,
     final Color? color,
-  }) {
-    showCupertinoModalPopup<void>(
-      context: context,
-      builder: (final BuildContext context) => Container(
-        decoration: BoxDecoration(color: color),
-        width: MediaQuery.of(context).size.width,
-        height: height ?? MediaQuery.of(context).size.height * 0.8,
-        color: Config.instance.brightness == Brightness.light
-            ? CupertinoColors.white
-            : CupertinoColors.black,
-        child: page,
-      ),
-    );
-  }
+  }) =>
+      showCupertinoModalPopup<void>(
+        context: context,
+        builder: (final BuildContext context) => Container(
+          decoration: BoxDecoration(color: color),
+          width: MediaQuery.of(context).size.width,
+          height: height ?? MediaQuery.of(context).size.height * 0.8,
+          color: Config.instance.brightness == Brightness.light
+              ? CupertinoColors.white
+              : CupertinoColors.black,
+          child: page,
+        ),
+      );
 
   ///
   ///
@@ -101,23 +98,22 @@ class Utils {
   ///
   ///
   ///
-  void alert(final BuildContext context, final String message) {
-    showCupertinoDialog<void>(
-      context: context,
-      builder: (final BuildContext context) => CupertinoAlertDialog(
-        title: const Text('Atenção'),
-        content: Text(message),
-        actions: <Widget>[
-          CupertinoDialogAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
+  void alert(final BuildContext context, final String message) =>
+      showCupertinoDialog<void>(
+        context: context,
+        builder: (final BuildContext context) => CupertinoAlertDialog(
+          title: const Text('Atenção'),
+          content: Text(message),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
 
   ///
   ///
@@ -127,23 +123,22 @@ class Utils {
     final Widget widget, {
     final String title = '',
     final String confirmText = 'Fechar',
-  }) {
-    showCupertinoDialog<void>(
-      context: context,
-      builder: (final BuildContext context) => CupertinoAlertDialog(
-        title: Text(title),
-        content: widget,
-        actions: <Widget>[
-          CupertinoDialogAction(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: Text(confirmText),
-          ),
-        ],
-      ),
-    );
-  }
+  }) =>
+      showCupertinoDialog<void>(
+        context: context,
+        builder: (final BuildContext context) => CupertinoAlertDialog(
+          title: Text(title),
+          content: widget,
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(confirmText),
+            ),
+          ],
+        ),
+      );
 
   ///
   ///

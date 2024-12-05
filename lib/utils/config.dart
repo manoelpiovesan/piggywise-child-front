@@ -24,9 +24,8 @@ class Config {
 
   ValueNotifier<Brightness> get brightnessNotifier => _brightnessNotifier;
 
-  set brightness(final Brightness brightness) {
-    _brightnessNotifier.value = brightness;
-  }
+  set brightness(final Brightness brightness) =>
+      _brightnessNotifier.value = brightness;
 
   Brightness get brightness => _brightnessNotifier.value;
 }

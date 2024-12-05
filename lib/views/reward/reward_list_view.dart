@@ -21,18 +21,16 @@ class RewardListView extends StatelessWidget {
   ///
   ///
   @override
-  Widget build(final BuildContext context) {
-    return CupertinoPageScaffold(
-      backgroundColor: CupertinoColors.systemGroupedBackground,
-      navigationBar: Utils().navBar(title: 'Recompensas'),
-      child: SafeArea(
-        child: Column(
-          children: <Widget>[
-            /// Rewards List
-            RewardListWidget(piggy: piggy),
-          ],
+  Widget build(final BuildContext context) => CupertinoPageScaffold(
+        backgroundColor: CupertinoColors.systemGroupedBackground,
+        navigationBar: Utils().navBar(title: 'Recompensas'),
+        child: SafeArea(
+          child: Column(
+            children: <Widget>[
+              /// Rewards List
+              RewardListWidget(piggy: piggy),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }

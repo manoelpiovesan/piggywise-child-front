@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:piggywise_child_front/consumers/piggy_consumer.dart';
 import 'package:piggywise_child_front/models/piggy.dart';
 import 'package:piggywise_child_front/utils/utils.dart';
 import 'package:piggywise_child_front/views/piggy/piggy_details_view.dart';
 import 'package:piggywise_child_front/views/piggy/piggy_sync_form.dart';
+import 'package:piggywise_child_front/widgets/list_tile_no_data.dart';
 
 ///
 ///
@@ -34,7 +34,11 @@ class PiggyListWidget extends StatelessWidget {
         } else if (snapshot.data!.isEmpty) {
           return CupertinoListSection.insetGrouped(
             children: <Widget>[
-              _noData(context),
+              ListTileNoDataYet(
+                onTap: () async => Utils.nav(context, const PiggySyncForm()),
+                title: 'Sincronize seu PiggyWise',
+                icon: const Icon(CupertinoIcons.link),
+              ),
             ],
           );
         } else {
@@ -51,9 +55,7 @@ class PiggyListWidget extends StatelessWidget {
               child: GridView.count(
                 shrinkWrap: true,
                 crossAxisCount: piggiesList.length > 1 ? 2 : 1,
-                children: <Widget>[
-                  ...piggiesList,
-                ],
+                children: piggiesList,
               ),
             ),
           );
@@ -61,19 +63,6 @@ class PiggyListWidget extends StatelessWidget {
       },
     );
   }
-
-  ///
-  ///
-  ///
-  Widget _noData(final BuildContext context) => CupertinoListTile(
-        onTap: () => Utils.nav(context, const PiggySyncForm()),
-        padding: const EdgeInsets.all(16),
-        leading: const Icon(
-          CupertinoIcons.link,
-        ),
-        title: const Text('Sincronize seu PiggyWise'),
-        trailing: const CupertinoListTileChevron(),
-      );
 
   ///
   ///
